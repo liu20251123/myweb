@@ -601,10 +601,19 @@ function handleSubmit() {
     // 第三步：逐题评分
 for (let i = 0; i < questionBank.length; i++) {
     const q = questionBank[i];
-    const userAns = userSelections[i];
+    let userAns = userSelections[i];
     let isCorrect = false;
+
     if (q.type === 'choice' || q.type === 'tf') {
-        isCorrect = (userAns === (q.answer ? 0 : 1));   // ← 只改这一行
+        // ✅ 统一转成数字再比较
+        const userNum = parseInt(userAns);
+        let correctNum;
+        if (typeof q.answer === 'boolean') {
+            correctNum = q.answer ? 0 : 1;   // true→0, false→1
+        } else {
+            correctNum = parseInt(q.answer);
+        }
+        isCorrect = (userNum === correctNum);
     } else {
         isCorrect = (userAns.trim() === q.answer);
     }
