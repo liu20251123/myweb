@@ -299,16 +299,19 @@
   </div>
 
   <script>
-    // 确保所有卡片点击不会真正跳转（演示），但保留a标签语义
-    (function() {
-      document.querySelectorAll('.card').forEach(card => {
+  <script>
+(function() {
+    document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('click', function(e) {
-          // 防止href="#"导致页面滚动
-          e.preventDefault();
-          // onclick 已经 alert，此处不做额外处理
+            // 只针对 href="#" 的卡片阻止跳转
+            if (this.getAttribute('href') === '#') {
+                e.preventDefault();
+            }
+            // 如果有真实链接，就不阻止
         });
-      });
-    })();
+    });
+})();
+</script>
   </script>
 </body>
 </html>
