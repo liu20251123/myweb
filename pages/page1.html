@@ -547,41 +547,80 @@
         correctNumEl.textContent = correct;
     }
 
-    function handleSubmit() {
-        let allDone = true;
-        for (let i = 0; i < questionBank.length; i++) {
-            const q = questionBank[i];
-            const val = userSelections[i];
-            if (q.type === 'fill') {
-                if (!val || val.trim() === '') { allDone = false; break; }
-            } else {
-                if (val === null || val === -1) { allDone = false; break; }
+   function collectAllAnswers() {
+    // 读取所有选中的 radio
+    document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
+        const name = r.name;
+        if (name && name.startsWith('q')) {
+            const idx = parseInt(name.substring(1));
+            if (!isNaN(idx)) {
+                userSelections[idx] = parseInt(r.value);
             }
         }
-        if (!allDone) {
-            alert('⚠️ 还有题目未作答，请完成全部题目后再提交！');
-            return;
+    });
+    // 读取所有填空输入框
+    document.querySelectorAll('.fill-input').forEach(inp => {
+        const idx = parseInt(inp.dataset.index);
+        if (!isNaN(idx)) {
+            userSelections[idx] = inp.value.trim();
         }
+    });
+}
 
-        for (let i = 0; i < questionBank.length; i++) {
-            const q = questionBank[i];
-            const userAns = userSelections[i];
-            let isCorrect = false;
-            if (q.type === 'choice' || q.type === 'tf') {
-                isCorrect = (userAns === q.answer);
-            } else {
-                isCorrect = (userAns.trim() === q.answer);
+// ================================================================
+// 函数2：handleSubmit - 提交并评分
+// ================================================================
+function handleSubmit() {
+    // 第一步：从页面收集最新答案
+    collectAllAnswers();
+
+    // 第二步：检查是否所有题目都已作答
+    let allDone = true;
+    for (let i = 0; i < questionBank.length; i++) {
+        const q = questionBank[i];
+        const val = userSelections[i];
+        if (q.type === 'fill') {
+            if (!val || val.trim() === '') {
+                allDone = false;
+                break;
             }
-            resultStatus[i] = isCorrect ? 'correct' : 'wrong';
+        } else {
+            if (val === null || val === -1) {
+                allDone = false;
+                break;
+            }
         }
-
-        renderQuestions();
-        const firstWrong = document.querySelector('.question-card.wrong');
-        if (firstWrong) {
-            firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-        updateSummary();
     }
+    if (!allDone) {
+        alert('⚠️ 还有题目未作答，请完成全部题目后再提交！');
+        return;
+    }
+
+    // 第三步：逐题评分
+for (let i = 0; i < questionBank.length; i++) {
+    const q = questionBank[i];
+    const userAns = userSelections[i];
+    let isCorrect = false;
+    if (q.type === 'choice' || q.type === 'tf') {
+        isCorrect = (userAns === (q.answer ? 0 : 1));   // ← 只改这一行
+    } else {
+        isCorrect = (userAns.trim() === q.answer);
+    }
+    resultStatus[i] = isCorrect ? 'correct' : 'wrong';
+}
+
+    // 第四步：重新渲染页面，显示结果
+    renderQuestions();
+
+    // 第五步：滚动到第一个错题位置
+    const firstWrong = document.querySelector('.question-card.wrong');
+    if (firstWrong) {
+        firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // 第六步：更新统计
+    updateSummary();
+}
 
     function handleReset() {
         userSelections = new Array(questionBank.length).fill(null);
