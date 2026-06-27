@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+  <title>操作系统 · 期末复习</title>
+  <style>
+    /* 极简重置，没有任何多余设计 */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #fafafa;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      line-height: 1.4;
+    }
+
+    /* 极简容器 — 只有功能，没有装饰 */
+    .home {
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    /* 标题 — 纯粹文字 */
+    .title {
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      color: #111;
+      margin-bottom: 0.15rem;
+      padding-bottom: 0.15rem;
+      border-bottom: 2px solid #222;
+      display: inline-block;
+    }
+
+    .sub {
+      font-size: 1rem;
+      color: #333;
+      margin-top: 0.5rem;
+      margin-bottom: 2.2rem;
+      font-weight: 400;
+      border-left: 3px solid #222;
+      padding-left: 0.75rem;
+    }
+
+    /* 6个卡片网格 — 极简，无阴影无圆角过度设计 */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.2rem;
+      margin: 1.8rem 0 2rem;
+    }
+
+    /* 卡片 — 纯粹边框，无背景渐变，无模糊，无多余效果 */
+    .card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.6rem 0.6rem;
+      background: white;
+      border: 1.5px solid #222;
+      border-radius: 0;           /* 直角，极简 */
+      text-decoration: none;
+      color: #111;
+      transition: background 0.1s ease;
+      text-align: center;
+      min-height: 130px;
+      cursor: pointer;
+    }
+
+    /* 只有 hover 轻微反馈，没有任何花哨 */
+    .card:hover {
+      background: #f0f0f0;
+    }
+
+    .card:active {
+      background: #ddd;
+    }
+
+    /* 卡片内文字 — 完全无装饰 */
+    .card-number {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #222;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+    }
+
+    .card-name {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #000;
+      line-height: 1.3;
+      margin: 0.2rem 0;
+    }
+
+    .card-desc {
+      font-size: 0.75rem;
+      color: #444;
+      font-weight: 400;
+      margin-top: 0.2rem;
+      letter-spacing: 0.2px;
+    }
+
+    /* 连接提示 — 极简文字，无装饰背景 */
+    .connector {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.2rem 0.8rem;
+      margin: 0.6rem 0 1.8rem;
+      font-size: 0.8rem;
+      color: #222;
+      font-weight: 400;
+      border-top: 1px solid #ccc;
+      border-bottom: 1px solid #ccc;
+      padding: 0.5rem 0;
+    }
+
+    .connector span {
+      background: transparent;
+      padding: 0 0.1rem;
+    }
+
+    .connector .arrow {
+      color: #555;
+      font-weight: 300;
+    }
+
+    /* 底部 — 极简状态 */
+    .footer {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.2rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid #aaa;
+      font-size: 0.8rem;
+      color: #222;
+    }
+
+    .footer .hint {
+      background: transparent;
+      padding: 0;
+      border: none;
+    }
+
+    .footer .mock {
+      background: transparent;
+      border: 1px solid #222;
+      padding: 0.2rem 1.2rem;
+      font-size: 0.8rem;
+      color: #111;
+      cursor: pointer;
+      transition: background 0.1s;
+      border-radius: 0;
+    }
+
+    .footer .mock:hover {
+      background: #eaeaea;
+    }
+
+    /* 完全响应式，无任何多余修饰 */
+    @media (max-width: 600px) {
+      .title {
+        font-size: 1.8rem;
+      }
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.9rem;
+      }
+      .card {
+        padding: 1.2rem 0.3rem;
+        min-height: 110px;
+      }
+      .card-name {
+        font-size: 1rem;
+      }
+      .footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.6rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 0.6rem;
+      }
+      .card {
+        padding: 0.9rem 0.2rem;
+        min-height: 90px;
+      }
+      .card-name {
+        font-size: 0.9rem;
+      }
+      .card-desc {
+        font-size: 0.65rem;
+      }
+    }
+
+    /* 所有多余设计全部移除 —— 只有功能 */
+    a, button, .card {
+      -webkit-tap-highlight-color: transparent;
+    }
+  </style>
+</head>
+<body>
+  <div class="home">
+    <!-- 标题区：纯粹文字 -->
+    <h1 class="title">操作系统 · 期末复习</h1>
+    <div class="sub">6 个相连刷题模块 · 点击即跳转</div>
+
+    <!-- 6个卡片：每个代表一个独立跳转界面 -->
+    <div class="grid">
+      <!-- 1. 进程管理 -->
+      <a href="pages/page.html" class="card" onclick="alert('跳转至「进程管理」刷题页'); return false;">
+        <div class="card-number">01</div>
+        <div class="card-name">进程管理</div>
+        <div class="card-desc">调度 · 同步 · 死锁</div>
+      </a>
+
+      <!-- 2. 内存管理 -->
+      <a href="pages/page1.html" class="card" onclick="alert('跳转至「内存管理」刷题页'); return false;">
+        <div class="card-number">02</div>
+        <div class="card-name">内存管理</div>
+        <div class="card-desc">分页 · 分段 · 虚拟</div>
+      </a>
+
+      <!-- 3. 文件系统 -->
+      <a href="pages/page2.html" class="card" onclick="alert('跳转至「文件系统」刷题页'); return false;">
+        <div class="card-number">03</div>
+        <div class="card-name">文件系统</div>
+        <div class="card-desc">目录 · 索引 · 磁盘</div>
+      </a>
+
+      <!-- 4. I/O 系统 -->
+      <a href="pages/page3.html" class="card" onclick="alert('跳转至「I/O 系统」刷题页'); return false;">
+        <div class="card-number">04</div>
+        <div class="card-name">I/O 系统</div>
+        <div class="card-desc">设备 · 驱动 · 缓冲</div>
+      </a>
+
+      <!-- 5. 并发与死锁 -->
+      <a href="pages/page4.html" class="card" onclick="alert('跳转至「并发与死锁」刷题页'); return false;">
+        <div class="card-number">05</div>
+        <div class="card-name">并发与死锁</div>
+        <div class="card-desc">银行家 · 哲学家</div>
+      </a>
+
+      <!-- 6. 综合真题 -->
+      <a href="pages/page5.html" class="card" onclick="alert('跳转至「综合真题」刷题页'); return false;">
+        <div class="card-number">06</div>
+        <div class="card-name">综合真题</div>
+        <div class="card-desc">期末模拟 · 压轴</div>
+      </a>
+    </div>
+
+    <!-- 极简相连指示：仅文字，无装饰背景 -->
+    <div class="connector">
+      <span>进程</span>
+      <span class="arrow">⟷</span>
+      <span>内存</span>
+      <span class="arrow">⟷</span>
+      <span>文件</span>
+      <span class="arrow">⟷</span>
+      <span>I/O</span>
+      <span class="arrow">⟷</span>
+      <span>并发</span>
+      <span class="arrow">⟷</span>
+      <span>真题</span>
+    </div>
+
+    <!-- 底部：纯粹信息 + 模拟功能 -->
+    <div class="footer">
+      <span class="hint">📌 标题随便写的，但是题库顺序一致</span>
+      <span>
+        <span class="mock" onclick="alert('随机刷题 (模拟)')">随机一题</span>
+        <span class="mock" style="margin-left: 0.6rem;" onclick="alert('复习进度 (模拟)')">进度</span>
+      </span>
+    </div>
+
+    <!-- 极简脚注：无任何多余修饰 -->
+    <div style="margin-top: 1.2rem; font-size: 0.65rem; color: #555; border-top: 1px solid #ddd; padding-top: 0.6rem; text-align: center; letter-spacing: 0.2px;">
+      每个卡片指向一个独立的刷题网页 · 共6站
+    </div>
+  </div>
+
+  <script>
+    // 确保所有卡片点击不会真正跳转（演示），但保留a标签语义
+    (function() {
+      document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('click', function(e) {
+          // 防止href="#"导致页面滚动
+          e.preventDefault();
+          // onclick 已经 alert，此处不做额外处理
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

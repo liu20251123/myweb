@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>操作系统 刷题练习</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f2f5;
+            font-family: -apple-system, "Microsoft YaHei", sans-serif;
+            padding: 25px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 28px 30px 36px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #4a6cf7;
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            color: #1a1a2e;
+        }
+
+        .header .info {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .header .info span {
+            font-weight: 600;
+            color: #4a6cf7;
+        }
+
+        .question-card {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 18px 20px 20px;
+            margin-bottom: 18px;
+            border-left: 4px solid #4a6cf7;
+            transition: 0.2s;
+        }
+
+        .question-card.correct {
+            border-left-color: #22b573;
+            background: #f0faf5;
+        }
+
+        .question-card.wrong {
+            border-left-color: #e74c3c;
+            background: #fdf0ef;
+        }
+
+        .question-card .q-text {
+            font-weight: 500;
+            font-size: 15px;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .question-card .q-text .q-type {
+            display: inline-block;
+            font-size: 12px;
+            background: #e8ecf4;
+            color: #555;
+            padding: 0 10px;
+            border-radius: 12px;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-left: 4px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #2d2d3f;
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #e2e6ee;
+            transition: 0.15s;
+        }
+
+        .options label:hover {
+            background: #eef2ff;
+            border-color: #b3c6ff;
+        }
+
+        .options input[type="radio"],
+        .options input[type="text"] {
+            flex-shrink: 0;
+        }
+
+        .options input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+        }
+
+        .options input[type="text"] {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #d0d5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.15s;
+            min-width: 100px;
+        }
+
+        .options input[type="text"]:focus {
+            border-color: #4a6cf7;
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
+        }
+
+        .tf-group {
+            display: flex;
+            gap: 16px;
+            padding-left: 4px;
+        }
+
+        .tf-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            padding: 6px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #e2e6ee;
+            transition: 0.15s;
+        }
+
+        .tf-group label:hover {
+            background: #eef2ff;
+            border-color: #b3c6ff;
+        }
+
+        .tf-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+        }
+
+        .result-hint {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result-hint.show {
+            display: block;
+        }
+
+        .result-hint.correct {
+            background: #d4edda;
+            color: #0e6b3e;
+        }
+
+        .result-hint.wrong {
+            background: #f8d7da;
+            color: #a11f2e;
+        }
+
+        .result-hint .answer-text {
+            font-weight: 700;
+            color: #c0392b;
+        }
+
+        .btn-group {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 11px 32px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8ecf4;
+            color: #2d2d3f;
+        }
+
+        .btn-primary {
+            background: #4a6cf7;
+            color: white;
+            box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+        }
+        .btn-primary:hover {
+            background: #3a5cd9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #22b573;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #1a9a62;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+        .btn-warning:hover {
+            background: #d68910;
+        }
+
+        .summary {
+            margin-top: 24px;
+            padding: 16px 22px;
+            background: #f0f2f8;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .summary .score {
+            font-weight: 700;
+            font-size: 20px;
+            color: #1a1a2e;
+        }
+
+        .summary .score span {
+            color: #4a6cf7;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #bbb;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+
+        @media (max-width: 540px) {
+            .container {
+                padding: 16px 12px;
+            }
+            .question-card {
+                padding: 14px 12px;
+            }
+            .btn {
+                padding: 9px 18px;
+                font-size: 13px;
+            }
+            .header h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📚 操作系统 · 刷题</h1>
+        <div class="info">共 <span id="totalCount">0</span> 题</div>
+    </div>
+
+    <div id="questionList"></div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="submitBtn">✅ 提交并查看错题</button>
+        <button class="btn btn-success" id="resetBtn">🔄 重新作答</button>
+        <button class="btn btn-warning" id="clearBtn">🗑️ 清空选择</button>
+    </div>
+
+    <div class="summary">
+        <span>📊 结果</span>
+        <span class="score">正确 <span id="correctNum">0</span> / 共 <span id="totalNum">0</span></span>
+    </div>
+
+    <div class="footer">选完答案后点「提交并查看错题」→ 错题自动标红并显示正确答案</div>
+</div>
+
+<script>
+    // ================================================================
+    // 题库：选择题(原1-9,29-34,41-43) → 判断题(原14-21,36-37,44) → 填空题(原10-13,35)
+    // 题号全部重新从1开始连续编号
+    // ================================================================
+    const questionBank = [
+        // ===== 第一部分：选择题 (共24题) =====
+        { type: 'choice', question: '1. 操作系统在计算机系统中位于（  ）之间。', options: ['CPU和用户', 'CPU和主存', '计算机硬件和用户', '计算机硬件和软件'], answer: 2 },
+        { type: 'choice', question: '2. 下列选择中，（  ）不是操作系统关心的主要问题。', options: ['管理计算机裸机', '设计、提供用户程序与计算机硬件系统的界面', '管理计算机系统资源', '高级程序设计语言的编译器'], answer: 3 },
+        { type: 'choice', question: '3. 所谓（  ）是指将一个以上的作业放入内存，并且同时处于运行状态，这些作业共享处理器的时间和I/O设备等其他资源。', options: ['多重处理', '多道程序设计', '实时处理', '共行执行'], answer: 1 },
+        { type: 'choice', question: '4. 在多道程序设计技术的计算机系统中，CPU（  ）。', options: ['只能被一个进程占用', '可以被多个进程同时占用', '可以被多个进程交替占用', '可以被操作系统和另一个进程同时占用'], answer: 2 },
+        { type: 'choice', question: '5. 下面关于操作系统的叙述中正确的是（  ）。', options: ['批处理作业必须具有作业控制信息，以便进行作业调度', '分时系统不一定都具有人机交互功能', '从响应时间的角度看，实时系统与分时系统一样', '由于采用了分时技术，用户就可以独占计算机的资源'], answer: 0 },
+        { type: 'choice', question: '6. 实时操作系统必须在（  ）内处理完来自外部的事件。', options: ['响应时间', '周转时间', '规定时间', '调度时间'], answer: 2 },
+        { type: 'choice', question: '7. （  ）不是设计实时操作系统主要追求的目标。', options: ['安全可靠', '资源利用率', '及时响应', '快速处理'], answer: 1 },
+        { type: 'choice', question: '8. 在操作系统中，并发性是指若干事件（  ）发生。', options: ['在同一时刻', '一定在不同时刻', '某一时间间隔内', '依次在不同时间间隔内'], answer: 2 },
+        { type: 'choice', question: '9. 在一个分时系统中，为使多个进程能够及时与系统交互，最关键的问题是在短时间内使所有就绪进程都能运行。当就绪进程数为100时，为保证响应时间不超过2s，此时的时间片最大应为（  ）。', options: ['10ms', '20ms', '50ms', '100ms'], answer: 1 },
+        { type: 'choice', question: '10. 当操作系统程序退出执行，让用户程序执行时，系统会（  ）。', options: ['继续保持内核态', '继续保持用户态', '从内核态变为用户态', '从用户态变为内核态'], answer: 2 },
+        { type: 'choice', question: '11. 当CPU执行操作系统内核代码时，称处理器处于（  ）。', options: ['自由态', '用户态', '内核态', '就绪态'], answer: 2 },
+        { type: 'choice', question: '12. 当CPU处于内核态时，它可以执行的指令是（  ）。', options: ['只有特权指令', '只有非特权指令', '只有访管指令', '计算机中的所有指令'], answer: 3 },
+        { type: 'choice', question: '13. 计算机系统中判断是否有中断事件发生应该在（  ）。', options: ['进程切换时', '执行完一条指令后', '执行P操作后', '由用户态转入内核态时'], answer: 1 },
+        { type: 'choice', question: '14. （  ）是现代操作系统必须提供的功能。', options: ['管理源程序', '编辑源程序', '处理中断', '编译源程序'], answer: 2 },
+        { type: 'choice', question: '15. 在中断发生后，进行中断处理的程序属于（  ）。', options: ['用户程序', '可能是应用程序，也可能是操作系统程序', '操作系统程序', '既不是应用程序，也不是操作系统程序'], answer: 2 },
+        { type: 'choice', question: '16. 一般而言，以下不属于操作系统内核功能的是（  ）。', options: ['资源抽象', '资源分配', '资源共享', '程序编辑'], answer: 3 },
+        { type: 'choice', question: '17. 操作系统结构设计中，层次结构的最大特点是（  ）。', options: ['便于调试', '把整体问题局部化', '结构清晰', '有利于功能的增加、删减和修改'], answer: 1 },
+        { type: 'choice', question: '18. 在操作系统的层次结构中，（  ）是操作系统的核心部分，它位于最内层。', options: ['存储器管理', '处理器管理', '设备管理', '作业管理'], answer: 1 },
+
+        // ===== 第二部分：判断题 (共11题) =====
+        { type: 'tf', question: '19. 操作系统是合理地组织计算机工作流程、有效地管理系统资源、方便用户使用的程序集合。', answer: true },
+        { type: 'tf', question: '20. 操作系统提供用户与计算机的接口。', answer: true },
+        { type: 'tf', question: '21. 操作系统是计算机专家为提高计算机精度而研制的。', answer: false },
+        { type: 'tf', question: '22. 操作系统都是多用户单任务系统。', answer: false },
+        { type: 'tf', question: '23. 操作系统是最底层的系统软件。', answer: true },
+        { type: 'tf', question: '24. 操作系统的存储管理是指对磁盘存储器的管理。', answer: false },
+        { type: 'tf', question: '25. 分时操作系统允许两个以上的用户共享一个计算机系统。', answer: true },
+        { type: 'tf', question: '26. 实时操作系统只能用于控制系统，不能用于信息管理系统。', answer: false },
+        { type: 'tf', question: '27. 通常将CPU模式分为内核态和用户态，这样做的目的是为了提高运行速度。', answer: false },
+        { type: 'tf', question: '28. 当CPU处于用户态时，它可以执行所有的指令。', answer: false },
+        { type: 'tf', question: '29. 操作系统的所有程序都必须常驻内存。', answer: false },
+
+        // ===== 第三部分：填空题 (共5题) =====
+        { type: 'fill', question: '30. 操作系统的4大功能是（  ）、存储器管理、设备管理、文件管理。', answer: '处理器调度' },
+        { type: 'fill', question: '31. 操作系统的基本特征是（  ）、共享性、虚拟性、异步性。', answer: '并发性' },
+        { type: 'fill', question: '32. 如果操作系统具有很强的交互性，可同时供多个用户使用，系统响应比较及时，则该操作系统属于（  ）类型。', answer: '分时系统' },
+        { type: 'fill', question: '33. 某分时系统中预计有50个用户同时上机，为使每个用户能在2s内得到响应，时间片最大限度为（  ）。', answer: '40ms' },
+        { type: 'fill', question: '34. 操作系统提供给程序员的接口是（  ）。', answer: '系统调用' },
+    ];
+
+    let userSelections = new Array(questionBank.length).fill(null);
+    let resultStatus = new Array(questionBank.length).fill(null);
+
+    const questionListEl = document.getElementById('questionList');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const correctNumEl = document.getElementById('correctNum');
+    const totalNumEl = document.getElementById('totalNum');
+    const totalCountSpan = document.getElementById('totalCount');
+
+    function renderQuestions() {
+        let html = '';
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const status = resultStatus[i];
+
+            let answerDisplay = '';
+            if (status === 'correct') {
+                answerDisplay = `<div class="result-hint show correct">✅ 正确</div>`;
+            } else if (status === 'wrong') {
+                let correctStr = '';
+                if (q.type === 'choice') {
+                    const letters = ['A', 'B', 'C', 'D'];
+                    correctStr = letters[q.answer] + '. ' + q.options[q.answer];
+                } else if (q.type === 'tf') {
+                    correctStr = q.answer ? '✔ 正确 (对)' : '✘ 错误 (错)';
+                } else if (q.type === 'fill') {
+                    correctStr = q.answer;
+                }
+                answerDisplay = `<div class="result-hint show wrong">❌ 错误 &nbsp;|&nbsp; 正确答案：<span class="answer-text">${correctStr}</span></div>`;
+            }
+
+            let extraClass = '';
+            if (status === 'correct') extraClass = 'correct';
+            else if (status === 'wrong') extraClass = 'wrong';
+
+            let inputHtml = '';
+            if (q.type === 'choice') {
+                const letters = ['A', 'B', 'C', 'D'];
+                let optsHtml = '';
+                for (let j = 0; j < q.options.length; j++) {
+                    const checked = (userSelections[i] === j) ? 'checked' : '';
+                    optsHtml += `
+                                <label>
+                                    <input type="radio" name="q${i}" value="${j}" ${checked}>
+                                    ${letters[j]}. ${q.options[j]}
+                                </label>
+                            `;
+                }
+                inputHtml = `<div class="options">${optsHtml}</div>`;
+            } else if (q.type === 'tf') {
+                const sel = userSelections[i];
+                const checkedTrue = (sel === 0) ? 'checked' : '';
+                const checkedFalse = (sel === 1) ? 'checked' : '';
+                inputHtml = `
+                            <div class="tf-group">
+                                <label><input type="radio" name="q${i}" value="0" ${checkedTrue}> ✔ 正确 (对)</label>
+                                <label><input type="radio" name="q${i}" value="1" ${checkedFalse}> ✘ 错误 (错)</label>
+                            </div>
+                        `;
+            } else if (q.type === 'fill') {
+                const val = userSelections[i] || '';
+                inputHtml = `
+                            <div class="options">
+                                <label style="background:transparent;border:none;padding:0;">
+                                    <span style="font-weight:500;color:#555;">填写答案：</span>
+                                    <input type="text" class="fill-input" data-index="${i}" value="${val}" placeholder="输入答案...">
+                                </label>
+                            </div>
+                        `;
+            }
+
+            const typeLabel = q.type === 'choice' ? '选择' : (q.type === 'tf' ? '判断' : '填空');
+
+            html += `
+                        <div class="question-card ${extraClass}" data-index="${i}">
+                            <div class="q-text"><span class="q-type">${typeLabel}</span> ${q.question}</div>
+                            ${inputHtml}
+                            ${answerDisplay}
+                        </div>
+                    `;
+        }
+
+        questionListEl.innerHTML = html;
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const name = this.name;
+                const idx = parseInt(name.substring(1));
+                if (this.checked) {
+                    userSelections[idx] = parseInt(this.value);
+                    if (resultStatus[idx] !== null) {
+                        resultStatus[idx] = null;
+                        renderQuestions();
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.fill-input').forEach(inp => {
+            inp.addEventListener('input', function() {
+                const idx = parseInt(this.dataset.index);
+                userSelections[idx] = this.value.trim();
+                if (resultStatus[idx] !== null) {
+                    resultStatus[idx] = null;
+                    const card = this.closest('.question-card');
+                    card.classList.remove('correct', 'wrong');
+                    const hint = card.querySelector('.result-hint');
+                    if (hint) hint.classList.remove('show');
+                    updateSummary();
+                }
+            });
+        });
+
+        totalCountSpan.textContent = questionBank.length;
+        totalNumEl.textContent = questionBank.length;
+        updateSummary();
+    }
+
+    function updateSummary() {
+        let correct = 0;
+        for (let i = 0; i < resultStatus.length; i++) {
+            if (resultStatus[i] === 'correct') correct++;
+        }
+        correctNumEl.textContent = correct;
+    }
+
+    function handleSubmit() {
+        let allDone = true;
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const val = userSelections[i];
+            if (q.type === 'fill') {
+                if (!val || val.trim() === '') { allDone = false; break; }
+            } else {
+                if (val === null || val === -1) { allDone = false; break; }
+            }
+        }
+        if (!allDone) {
+            alert('⚠️ 还有题目未作答，请完成全部题目后再提交！');
+            return;
+        }
+
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const userAns = userSelections[i];
+            let isCorrect = false;
+            if (q.type === 'choice' || q.type === 'tf') {
+                isCorrect = (userAns === q.answer);
+            } else {
+                isCorrect = (userAns.trim() === q.answer);
+            }
+            resultStatus[i] = isCorrect ? 'correct' : 'wrong';
+        }
+
+        renderQuestions();
+        const firstWrong = document.querySelector('.question-card.wrong');
+        if (firstWrong) {
+            firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        updateSummary();
+    }
+
+    function handleReset() {
+        userSelections = new Array(questionBank.length).fill(null);
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        resultStatus = new Array(questionBank.length).fill(null);
+        renderQuestions();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleClear() {
+        userSelections = new Array(questionBank.length).fill(null);
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        resultStatus = new Array(questionBank.length).fill(null);
+        renderQuestions();
+        updateSummary();
+    }
+
+    function init() {
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        renderQuestions();
+        submitBtn.addEventListener('click', handleSubmit);
+        resetBtn.addEventListener('click', handleReset);
+        clearBtn.addEventListener('click', handleClear);
+    }
+
+    init();
+</script>
+
+</body>
+</html>

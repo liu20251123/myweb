@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>操作系统 刷题练习 004</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #f0f2f5;
+            font-family: -apple-system, "Microsoft YaHei", sans-serif;
+            padding: 25px 16px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 28px 30px 36px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #4a6cf7;
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .header h1 { font-size: 22px; color: #1a1a2e; }
+        .header .info { font-size: 14px; color: #888; }
+        .header .info span { font-weight: 600; color: #4a6cf7; }
+        .question-card {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 18px 20px 20px;
+            margin-bottom: 18px;
+            border-left: 4px solid #4a6cf7;
+            transition: 0.2s;
+        }
+        .question-card.correct { border-left-color: #22b573; background: #f0faf5; }
+        .question-card.wrong { border-left-color: #e74c3c; background: #fdf0ef; }
+        .question-card .q-text {
+            font-weight: 500;
+            font-size: 15px;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+        .question-card .q-text .q-type {
+            display: inline-block;
+            font-size: 12px;
+            background: #e8ecf4;
+            color: #555;
+            padding: 0 10px;
+            border-radius: 12px;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-left: 4px;
+        }
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #2d2d3f;
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #e2e6ee;
+            transition: 0.15s;
+        }
+        .options label:hover { background: #eef2ff; border-color: #b3c6ff; }
+        .options input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .options input[type="text"] {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #d0d5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.15s;
+            min-width: 100px;
+        }
+        .options input[type="text"]:focus {
+            border-color: #4a6cf7;
+            box-shadow: 0 0 0 3px rgba(74,108,247,0.15);
+        }
+        .tf-group {
+            display: flex;
+            gap: 16px;
+            padding-left: 4px;
+        }
+        .tf-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            padding: 6px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #e2e6ee;
+            transition: 0.15s;
+        }
+        .tf-group label:hover { background: #eef2ff; border-color: #b3c6ff; }
+        .tf-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+        }
+        .result-hint {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+        .result-hint.show { display: block; }
+        .result-hint.correct { background: #d4edda; color: #0e6b3e; }
+        .result-hint.wrong { background: #f8d7da; color: #a11f2e; }
+        .result-hint .answer-text { font-weight: 700; color: #c0392b; }
+        .btn-group {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 11px 32px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8ecf4;
+            color: #2d2d3f;
+        }
+        .btn-primary { background: #4a6cf7; color: white; box-shadow: 0 4px 12px rgba(74,108,247,0.3); }
+        .btn-primary:hover { background: #3a5cd9; transform: translateY(-2px); }
+        .btn-success { background: #22b573; color: white; }
+        .btn-success:hover { background: #1a9a62; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-danger:hover { background: #c0392b; }
+        .btn-warning { background: #f39c12; color: white; }
+        .btn-warning:hover { background: #d68910; }
+        .summary {
+            margin-top: 24px;
+            padding: 16px 22px;
+            background: #f0f2f8;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 15px;
+        }
+        .summary .score { font-weight: 700; font-size: 20px; color: #1a1a2e; }
+        .summary .score span { color: #4a6cf7; }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #bbb;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+        @media (max-width: 540px) {
+            .container { padding: 16px 12px; }
+            .question-card { padding: 14px 12px; }
+            .btn { padding: 9px 18px; font-size: 13px; }
+            .header h1 { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📚 操作系统 004 · 刷题</h1>
+        <div class="info">共 <span id="totalCount">0</span> 题</div>
+    </div>
+
+    <div id="questionList"></div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="submitBtn">✅ 提交并查看错题</button>
+        <button class="btn btn-success" id="resetBtn">🔄 重新作答</button>
+        <button class="btn btn-warning" id="clearBtn">🗑️ 清空选择</button>
+    </div>
+
+    <div class="summary">
+        <span>📊 结果</span>
+        <span class="score">正确 <span id="correctNum">0</span> / 共 <span id="totalNum">0</span></span>
+    </div>
+
+    <div class="footer">选完答案后点「提交并查看错题」→ 错题自动标红并显示正确答案</div>
+</div>
+
+<script>
+    // ================================================================
+    // 第四套题：存储管理（无官方答案，由专业知识补充）
+    // 选择题 + 判断题 + 填空题（去掉简答题）
+    // 题号从1开始连续编号
+    // ================================================================
+    const questionBank = [
+        // ===== 选择题 (原1-25, 28-38, 47-54, 75-83) =====
+        { type: 'choice', question: '1. 存储管理的目的是（  ）。', options: ['方便用户', '提高内存利用率', '方便用户和提高内存利用率', '增加内存实际容量'], answer: 2 },
+        { type: 'choice', question: '2. 对主存储器的访问，是（  ）。', options: ['以段为单位', '以字节或字为单位', '随存储器的管理方案不同而异', '以用户的逻辑记录为单位'], answer: 1 },
+        { type: 'choice', question: '3. 源程序经过编译后所生成的目标程序所对应的地址空间是（  ）。', options: ['名空间', '逻辑地址空间', '存储空间', '物理地址空间'], answer: 1 },
+        { type: 'choice', question: '4. 把作业空间中使用的逻辑地址变为内存中物理地址称为（  ）。', options: ['加载', '重定位', '物理化', '逻辑化'], answer: 1 },
+        { type: 'choice', question: '5. 以下存储管理方式中，（  ）方式可以采用静态重定位。', options: ['固定分区', '分页', '分段', '都不是'], answer: 0 },
+        { type: 'choice', question: '6. 为了保证一个程序在主存中改变了存放位置之后仍能正确执行，则对主存空间应采用（  ）技术。', options: ['静态重定位', '动态重定位', '动态分配', '静态分配'], answer: 1 },
+        { type: 'choice', question: '7. 在存储管理中采用交换技术，目的是（  ）。', options: ['从物理上扩充内存', '实现主存共享', '节省存储空间', '提高内存利用率'], answer: 3 },
+        { type: 'choice', question: '8. （  ）是指将作业不需要或暂时不需要的部分移到外存，让出内存空间以调入其他所需数据。', options: ['逻辑扩充', '交换技术', '虚拟技术', '物理扩充'], answer: 1 },
+        { type: 'choice', question: '9. 系统采用分区存储管理时，可采用（  ）让多用户进程轮流进入主存储器执行。', options: ['存储技术', '交换技术', '分区技术', '虚拟存储技术'], answer: 1 },
+        { type: 'choice', question: '10. 碎片是指（  ）。', options: ['存储分配完后所剩的空闲区', '没有被使用的存储区', '不能被使用的存储区', '未被使用，而又暂时不能使用的存储区'], answer: 3 },
+        { type: 'choice', question: '11. 碎片现象的存在使得（  ）。', options: ['内存空间利用率降低', '内存空间利用率提高', '内存空间利用率得以改善', '内存空间利用率不影响'], answer: 0 },
+        { type: 'choice', question: '12. 当内存碎片容量大于某一作业所申请的内存容量时，（  ）。', options: ['可以为这一作业直接分配内存', '不可以为这一作业分配内存', '经过拼接后，可以为这一作业分配内存', '一定能够为这一作业分配内存'], answer: 2 },
+        // 原28-38
+        { type: 'choice', question: '13. 以下存储管理方式中，不适合多道程序设计系统的是（  ）。', options: ['单一连续分配', '固定式分区分配', '可变式分区分配', '分页存储管理'], answer: 0 },
+        { type: 'choice', question: '14. （  ）要求主存空间分配具有连续性。', options: ['固定分区管理', '分页存储管理', '分段存储管理', '段页式存储管理'], answer: 0 },
+        { type: 'choice', question: '15. 在固定分区分配中，每个分区的大小是（  ）。', options: ['相同', '随作业长度变化', '可以不同但预先固定', '可以不同但根据作业长度固定'], answer: 2 },
+        { type: 'choice', question: '16. 较好地解决外部碎片问题的存储管理方法是（  ）。', options: ['分页管理', '请求分段管理', '动态分区', '分段管理'], answer: 0 },
+        { type: 'choice', question: '17. 动态分区管理要求对每一个作业都分配（  ）的内存单元。', options: ['地址连续', '若干地址不连续', '若干连续的块', '若干不连续的块'], answer: 0 },
+        { type: 'choice', question: '18. 在可变分区存储管理中的拼接技术可以（  ）。', options: ['集中空闲分区', '增加内存容量', '缩短访问周期', '加速地址转换'], answer: 0 },
+        { type: 'choice', question: '19. 在可变分区分配管理中，某一作业完成后，系统收回其内存空间，并与相邻空闲区合并，为此修改空闲区说明表，造成空闲分区数减1的情况是（  ）。', options: ['无上邻空闲分区，也无下邻空闲分区', '有上邻空闲分区，但无下邻空闲分区', '有下邻空闲分区，但无上邻空闲分区', '有上邻空闲分区，也有下邻空闲分区'], answer: 3 },
+        { type: 'choice', question: '20. 首次适应算法的空闲分区是（  ）。', options: ['按容量大小递减顺序连在一起', '按容量大小递增顺序连在一起', '按地址由低到高排列', '按地址由高到低排列'], answer: 2 },
+        { type: 'choice', question: '21. 最佳适应算法的空闲分区是（  ）。', options: ['按容量大小递减顺序连在一起', '按容量大小递增顺序连在一起', '按地址由低到高排列', '按地址由高到低排列'], answer: 1 },
+        { type: 'choice', question: '22. 下述内存分配算法中，（  ）更易产生无法利用的小碎片。', options: ['首次适应算法', '循环首次适应算法', '最佳适应算法', '最坏适应算法'], answer: 2 },
+        { type: 'choice', question: '23. 多个进程在内存中彼此互不干扰的环境下运行，操作系统是通过（  ）来实现互不干扰的。', options: ['内存分配', '内存保护', '内存扩充', '地址映射'], answer: 1 },
+        // 原47-54
+        { type: 'choice', question: '24. 在分页存储管理中，主存的分配是（  ）。', options: ['以块为单位进行', '以作业的大小分配', '以物理段进行分配', '以逻辑记录大小进行分配'], answer: 0 },
+        { type: 'choice', question: '25. 分页式存储管理的主要特点是（  ）。', options: ['要求处理缺页中断', '要求扩充主存容量', '不要求作业装入到主存的连续区域', '不要求作业全部同时装入主存'], answer: 2 },
+        { type: 'choice', question: '26. （  ）存储管理方式提供一维地址结构。', options: ['分段', '分页', '分段和段页式', '都不是'], answer: 1 },
+        { type: 'choice', question: '27. 下列（  ）存储管理方式能使存储碎片尽可能少，而且使内存利用率较高。', options: ['固定分区', '可变分区', '分页管理', '段页式管理'], answer: 3 },
+        { type: 'choice', question: '28. 操作系统采用分页存储管理方式，要求（  ）。', options: ['每个进程拥有一张页表，且进程的页表驻留在内存中', '每个进程拥有一张页表，但只有执行进程的页表驻留在内存中', '所有进程共享一张页表，以节约有限的内存空间，但页表必须驻留在内存中', '所有进程共享一张页表，只有页表中当前使用的页面必须驻留在内存中，以最大限度地节省有限的内存空间'], answer: 0 },
+        { type: 'choice', question: '29. 在分页管理系统中，分页是由（  ）完成的。', options: ['程序员', '硬件', '编译软件', '都不对'], answer: 1 },
+        { type: 'choice', question: '30. 以下有关外层页表的叙述中错误的是（  ）。', options: ['反映在磁盘上页面存放的物理位置', '外层页表是指向页表的页表', '为不连续（离散）分配的页表再建立一个页表', '有了外层页表则需要一个外层页表寄存器就能实现地址变换'], answer: 3 },
+        // 原75-83
+        { type: 'choice', question: '31. 分段管理提供（  ）维的地址结构。', options: ['1', '2', '3', '4'], answer: 1 },
+        { type: 'choice', question: '32. 在段式分配中，CPU每次从内存中取一次数据需要（  ）次访问内存。', options: ['1', '3', '2', '4'], answer: 2 },
+        { type: 'choice', question: '33. 在分段存储管理中，一个程序如何分段是在（  ）决定的。', options: ['分配主存时', '用户编程时', '装入作业时', '程序执行时'], answer: 1 },
+        { type: 'choice', question: '34. 引入分段存储管理，主要是为了满足用户的一系列要求，以下不属于这一系列要求的是（  ）。', options: ['方便操作', '方便编程', '分段共享', '动态链接'], answer: 0 },
+        { type: 'choice', question: '35. 在分段存储管理方式中，（  ）。', options: ['以段为单位分配，每段是一个连续存储区', '段与段之间必定不连续', '段与段之间必定连续', '每段是等长的'], answer: 0 },
+        { type: 'choice', question: '36. 采用分段存储管理的系统中，若地址用24位表示，其中8位表示段内地址，则允许分段的最大个数是（  ）。', options: ['2^24', '2^16', '2^8', '2^32'], answer: 1 },
+        { type: 'choice', question: '37. 在段页式存储管理中，CPU每次从内存中取一次数据需要（  ）次访问内存。', options: ['1', '3', '2', '4'], answer: 1 },
+        { type: 'choice', question: '38. 段页式存储管理汲取了页式管理和段式管理的长处，其实现原理结合了页式和段式管理的基本思想，即（  ）。', options: ['用分段方法来分配和管理物理存储空间，用分页方法来管理用户地址空间', '用分段方法来分配和管理用户地址空间，用分页方法来管理物理存储空间', '用分段方法来分配和管理主存空间，用分页方法来管理辅存空间', '用分段方法来分配和管理辅存空间，用分页方法来管理主存空间'], answer: 1 },
+        { type: 'choice', question: '39. 在段页式存储管理中，地址映像表是（  ）。', options: ['每个作业或进程有一张段表、两张页表', '每个作业或进程的每个段有一张段表、一张页表', '每个作业或进程有一张段表、每个段有一张页表', '每个作业或进程有一张页表，每个段有一张段表'], answer: 2 },
+        // 原98-122
+        { type: 'choice', question: '40. 虚拟存储技术是（  ）。', options: ['物理上扩充内存空间的技术', '逻辑上扩充内存空间的技术', '物理上扩充外存空间的技术', '扩充输入输出缓冲区的技术'], answer: 1 },
+        { type: 'choice', question: '41. 在虚拟存储系统中，地址转换工作是由（  ）完成的。', options: ['硬件', '编译程序', '装入程序和地址转换程序', '装入程序'], answer: 0 },
+        { type: 'choice', question: '42. 以下不属于虚拟内存特征的是（  ）。', options: ['一次性', '多次性', '对换性', '离散性'], answer: 0 },
+        { type: 'choice', question: '43. 虚拟内存的基础是（  ）。', options: ['局部性理论', '代码的顺序执行', '变量的连续访问', '指令局部性'], answer: 0 },
+        { type: 'choice', question: '44. 实施虚拟存储器管理的依据是程序的（  ）。', options: ['局部性原理', '动态性原理', '并发性原理', '一致性原理'], answer: 0 },
+        { type: 'choice', question: '45. 实现虚拟内存最主要的技术是（  ）。', options: ['整体覆盖', '整体对换', '部分对换', '多道程序设计'], answer: 2 },
+        { type: 'choice', question: '46. 虚拟内存的最大容量只受（  ）的限制。', options: ['物理内存的大小', '磁盘空间的大小', '数据存放的实际地址', '计算机地址位数'], answer: 3 },
+        { type: 'choice', question: '47. 虚拟存储器是（  ）。', options: ['可以容纳总和超过主存容量的多个作业同时运行的一个地址空间', '可提高计算机运算速度的设备', '物理容量扩大了的主存', '实际上不存在的存储器'], answer: 0 },
+        { type: 'choice', question: '48. 若处理器有32位地址，则它的虚拟地址空间为（  ）。', options: ['2GB', '4GB', '100KB', '640KB'], answer: 1 },
+        { type: 'choice', question: '49. 设主存容量为1MB，外存容量为400MB，计算机系统的地址寄存器有24位，那么虚存的最大容量是（  ）。', options: ['1MB', '401MB', '1MB+2^24B', '2^24B'], answer: 3 },
+        { type: 'choice', question: '50. 以下存储管理技术中，支持虚拟存储器的技术是（  ）。', options: ['动态分区法', '可重定位分区法', '请求分页技术', '对换技术'], answer: 2 },
+        { type: 'choice', question: '51. 以时间换空间的技术是（  ）。', options: ['分时技术', '虚拟技术', '并发技术', '缓冲技术'], answer: 1 },
+        { type: 'choice', question: '52. 有关虚拟存储器的叙述中正确的是（  ）。', options: ['要求作业运行前，必须全部装入内存，且在运行中必须常驻内存', '要求作业运行前，不必全部装入内存，且在运行中不必常驻内存', '要求作业运行前，不必全部装入内存，但在运行中必须常驻内存', '要求作业运行前，必须全部装入内存，且在运行中不必常驻内存'], answer: 1 },
+        { type: 'choice', question: '53. 在请求分页系统中，分页是由（  ）实现的。', options: ['程序员', '编译程序', '系统调用', '操作系统'], answer: 3 },
+        { type: 'choice', question: '54. （  ）是请求分页存储管理方式和基本分页存储管理方式的区别。', options: ['地址重定位', '不必将作业全部装入内存', '采用快表技术', '不必将作业装入连续区域'], answer: 1 },
+        { type: 'choice', question: '55. 在请求分页存储管理中，若进程访问的页面不在主存，且主存中没有可用的空闲块时，系统正确的处理顺序为（  ）。', options: ['决定淘汰页，页面调出，缺页中断，页面调入', '决定淘汰页，页面调入，缺页中断，页面调出', '缺页中断，决定淘汰页，页面调出，页面调入', '缺页中断，决定淘汰页，页面调入，页面调出'], answer: 2 },
+        { type: 'choice', question: '56. 在请求分页系统中，LRU算法是指（  ）。', options: ['最早进入内存的页先淘汰', '近期最长时间以来没被访问的页先淘汰', '近期被访问次数最少的页先淘汰', '以后再也不用的页先淘汰'], answer: 1 },
+        { type: 'choice', question: '57. 系统抖动是指（  ）。', options: ['使用机器时，造成屏幕闪烁的现象', '刚被调出的页面又立即被装入所形成的频繁装入/调出的现象', '系统盘有问题，造成系统不稳定的现象', '由于主存分配不当，偶然造成主存不够的现象'], answer: 1 },
+        { type: 'choice', question: '58. 以下页面置换算法中，（  ）可能会产生Belady现象。', options: ['最佳置换算法', '最近最久未使用算法', '先进先出算法', '时钟置换算法'], answer: 2 },
+        { type: 'choice', question: '59. 请求页式存储管理的主要特点是（  ）。', options: ['不要求将作业装入主存的连续区域', '不要求将作业同时全部装入主存的连续区域', '不要求进行缺页中断处理', '不要求进行页面置换'], answer: 1 },
+        { type: 'choice', question: '60. 在请求页式存储管理中，页表项中使用修改位的目的是（  ）。', options: ['实现LRU置换算法', '实现FIFO算法', '在快表中检查页面是否进入', '检查页面是否最近被改写过'], answer: 3 },
+        { type: 'choice', question: '61. 在请求页式存储管理中，若所需页面不在内存中，则会引起（  ）。', options: ['输入输出中断', '时钟中断', '越界中断', '缺页中断'], answer: 3 },
+        { type: 'choice', question: '62. 在请求页式存储管理中，页面的大小与可能产生的缺页中断次数（  ）。', options: ['成正比', '成反比', '无关', '成固定比例'], answer: 2 },
+        { type: 'choice', question: '63. 请求分页存储管理中，若把页面尺寸增加一倍，在程序顺序执行时，则一般缺页中断次数会（  ）。', options: ['增加', '减少', '不变', '可能增加也可能减少'], answer: 1 },
+        { type: 'choice', question: '64. 下列关于虚拟存储器的论述中，正确的论述是（  ）。', options: ['在请求段页式系统中，以页为单位管理用户的虚空间，以段为单位管理内存空间。', '在请求段页式系统中，以段为单位管理用户的虚空间，以页为单位管理内存空间。', '为提高请求分页系统中内存的利用率，允许用户使用不同大小的页面。', '操作系统中，实现虚拟存储器的最常用的算法是最佳适应算法OPT。'], answer: 1 },
+
+        // ===== 判断题 (原19-25, 42-46, 61-68, 88-93) =====
+        { type: 'tf', question: '65. CPU可以直接存取外存上的信息。', answer: false },
+        { type: 'tf', question: '66. 存储管理的主要目的是扩大内存空间。', answer: false },
+        { type: 'tf', question: '67. 在现代操作系统中，不允许用户干预内存的分配。', answer: true },
+        { type: 'tf', question: '68. 在动态分区中内存中的碎片，可以直接通过拼凑合并成为一个连续区。', answer: true },
+        { type: 'tf', question: '69. 把逻辑地址转换成物理地址的工作称为重定位。', answer: true },
+        { type: 'tf', question: '70. 动态重定位技术使得作业在内存中可以移动。', answer: true },
+        { type: 'tf', question: '71. 存储保护的目的是限制内存的分配。', answer: false },
+        // 原42-46
+        { type: 'tf', question: '72. 连续分配管理方式仅适合于单道程序运行环境。', answer: false },
+        { type: 'tf', question: '73. 采用动态分区方式将作业装入主存后，作业的地址不一定是连续的。', answer: false },
+        { type: 'tf', question: '74. 最佳适应算法的空闲区是按地址顺序从小到大登记在空闲区表中。', answer: false },
+        { type: 'tf', question: '75. 首次适应算法的空闲区是按地址顺序从小到大登记在空闲区表中。', answer: true },
+        { type: 'tf', question: '76. 动态分区方式按作业需求量分配主存空间，所以分区长度和个数都是确定的。', answer: false },
+        // 原61-68
+        { type: 'tf', question: '77. 分页存储管理中，用户可以按照自己的意愿将程序划分成若干相等的页。', answer: false },
+        { type: 'tf', question: '78. 在分页存储管理中，页的大小是可以不相等的。', answer: false },
+        { type: 'tf', question: '79. 在分页存储管理中，作业装入主存后，整个作业的地址是连续的。', answer: false },
+        { type: 'tf', question: '80. 在分页存储管理中，作业的页面大小和内存物理块大小可以不相同。', answer: false },
+        { type: 'tf', question: '81. 在基本分页存储管理中，一个作业必须全部装入内存才能运行。', answer: true },
+        { type: 'tf', question: '82. 在基本分页存储管理中，一个作业的逻辑地址为12位，则逻辑地址空间的容量为2^12B。', answer: true },
+        { type: 'tf', question: '83. 在基本分页存储管理中，一个作业的逻辑地址由页号和页内地址两部分组成。', answer: true },
+        { type: 'tf', question: '84. 快表是位于内存中的一个特殊区域。', answer: false },
+        // 原88-93
+        { type: 'tf', question: '85. 分页存储管理中一个作业可以占用不连续的内存空间，而分段存储管理中一个作业则是占用连续的内存空间。', answer: false },
+        { type: 'tf', question: '86. 分段存储管理中，分段是由用户决定的。', answer: true },
+        { type: 'tf', question: '87. 分段存储管理中，系统为每个段分配一个连续主存区。', answer: true },
+        { type: 'tf', question: '88. 分段存储管理中，段内地址是连续的，段与段之间的地址也是连续的。', answer: false },
+        { type: 'tf', question: '89. 分段存储管理要有硬件地址转换机构做支撑，段表的表项起到了基址/限长寄存器的作用。', answer: true },
+        { type: 'tf', question: '90. 段页式存储管理实现了分页存储管理和分段存储管理方式的优势互补。', answer: true },
+        // 原127-134
+        { type: 'tf', question: '91. 在虚拟存储管理方式下，一个作业必须全部装入主存才能执行。', answer: false },
+        { type: 'tf', question: '92. 虚拟存储器的容量比实际物理内存空间大得多。', answer: true },
+        { type: 'tf', question: '93. 虚拟存储器是利用操作系统产生的一个假想的特大存储器，在逻辑上扩充了内存容量，而物理内存容量并未增加。', answer: true },
+        { type: 'tf', question: '94. 在虚拟存储系统中，用户地址空间的大小可以不受任何限制。', answer: false },
+        { type: 'tf', question: '95. 在请求分页存储系统中，页面大小根据程序长度动态地分配。', answer: false },
+        { type: 'tf', question: '96. 在请求分页存储系统中，页面长度固定并且是硬件决定的。', answer: true },
+        { type: 'tf', question: '97. 大多数虚拟系统采用最佳置换算法（OPT）是因为它确实可以得到最小的缺页率。', answer: false },
+        { type: 'tf', question: '98. 在请求分页存储管理中，页面淘汰所花费的时间不属于系统开销。', answer: false },
+
+        // ===== 填空题 (原13-18, 39-41, 55-60, 84-87, 123-126) =====
+        { type: 'fill', question: '99. （  ）可被CPU直接访问，但CPU不能直接访问辅存。', answer: '主存' },
+        { type: 'fill', question: '100. 存储管理是对主存空间的（  ）进行管理。', answer: '分配' },
+        { type: 'fill', question: '101. 为了防止各个进程之间相互干扰和保护各个区域内的信息不被破坏，必须实现（  ）。', answer: '存储保护' },
+        { type: 'fill', question: '102. 把逻辑地址转换成绝对地址的工作称为（  ）。', answer: '重定位' },
+        { type: 'fill', question: '103. 重定位方式有两种，其中（  ）是指把作业的指令和数据地址在作业装入时全部转换成绝对地址。', answer: '静态重定位' },
+        { type: 'fill', question: '104. 内存管理中引入对换技术获得好处是以牺牲（  ）为代价的。', answer: 'CPU时间' },
+        // 原39-41
+        { type: 'fill', question: '105. 多分区的存储管理可采用（  ）或动态分区分配方式进行管理。', answer: '固定分区' },
+        { type: 'fill', question: '106. 动态分区分配的首次适应算法要求空闲分区按（  ）的顺序链接成一个空闲分区链。', answer: '地址递增' },
+        { type: 'fill', question: '107. 动态分区分配的最佳适应算法把空闲区按长度（  ）登记在空闲分区表中，使找到的第一个满足作业要求的分区最小。', answer: '递增' },
+        // 原55-60
+        { type: 'fill', question: '108. 在分页存储管理中，要求程序中的逻辑地址可以分页，页的大小与（  ）大小一致。', answer: '物理块' },
+        { type: 'fill', question: '109. 作业的页表中包含逻辑地址中的页号与主存中（  ）的对应关系。', answer: '物理块号' },
+        { type: 'fill', question: '110. 在基本分页存储管理中，按给定的逻辑地址读写时，要访问两次主存，第1次是（  ），第2次是按计算出来的物理地址进行读写。', answer: '查页表' },
+        { type: 'fill', question: '111. 分页存储管理做重定位时，实际上是把（  ）作为物理地址的高位地址，而块（或页）内地址作为它的低地址部分。', answer: '块号' },
+        { type: 'fill', question: '112. 在某基本分页存储管理中，逻辑地址为24位，其中8位表示页号，则允许的最大页面大小是（  ）字节。', answer: '65536' },
+        { type: 'fill', question: '113. 在基本分页存储管理系统中，把一段时间内总是经常访问的某页表项存放在（  ）中，可实现快速查找并提高指令执行速度。', answer: '快表' },
+        // 原84-87
+        { type: 'fill', question: '114. 当存储器采用段页式管理时，主存被划分为定长的（  ）。', answer: '块' },
+        { type: 'fill', question: '115. 一个用户程序中含有代码段A、代码段B和数据段C，当该程序在段页式管理机构中运行时，系统至少为该用户程序建立（  ）个段表。', answer: '1' },
+        { type: 'fill', question: '116. 在分段存储管理中要有硬件地址转换机构做支撑，段表的每个表项至少包含（  ）信息。', answer: '段长' },
+        { type: 'fill', question: '117. 若分段管理中供用户使用的逻辑地址为24位，其中段内地址占16位，则用户程序最多可以分为（  ）个段。', answer: '256' },
+        // 原123-126
+        { type: 'fill', question: '118. 在请求分页存储系统中，若访问的页面不在主存中，则产生（  ），由操作系统把当前所需的页面装入主存中。', answer: '缺页中断' },
+        { type: 'fill', question: '119. 缺页中断率与分配给作业的主存块数有关，一般地，分配给作业的主存块数多，能（  ）缺页中断率。', answer: '降低' },
+        { type: 'fill', question: '120. 在页面调度时，如果刚调出的页面又要立即装入，可装入不久的页面又要调出，这种频繁的装入/调出现象称为（  ）。', answer: '抖动' },
+        { type: 'fill', question: '121. 在请求段页式存储管理中，在不考虑使用快表的情况下，访问内存的每条指令需要3次访问内存，其中第（  ）次是查作业的页表。', answer: '3' },
+    ];
+
+    let userSelections = new Array(questionBank.length).fill(null);
+    let resultStatus = new Array(questionBank.length).fill(null);
+
+    const questionListEl = document.getElementById('questionList');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const correctNumEl = document.getElementById('correctNum');
+    const totalNumEl = document.getElementById('totalNum');
+    const totalCountSpan = document.getElementById('totalCount');
+
+    function renderQuestions() {
+        let html = '';
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const status = resultStatus[i];
+
+            let answerDisplay = '';
+            if (status === 'correct') {
+                answerDisplay = `<div class="result-hint show correct">✅ 正确</div>`;
+            } else if (status === 'wrong') {
+                let correctStr = '';
+                if (q.type === 'choice') {
+                    const letters = ['A', 'B', 'C', 'D'];
+                    correctStr = letters[q.answer] + '. ' + q.options[q.answer];
+                } else if (q.type === 'tf') {
+                    correctStr = q.answer ? '✔ 正确 (对)' : '✘ 错误 (错)';
+                } else if (q.type === 'fill') {
+                    correctStr = q.answer;
+                }
+                answerDisplay = `<div class="result-hint show wrong">❌ 错误 &nbsp;|&nbsp; 正确答案：<span class="answer-text">${correctStr}</span></div>`;
+            }
+
+            let extraClass = '';
+            if (status === 'correct') extraClass = 'correct';
+            else if (status === 'wrong') extraClass = 'wrong';
+
+            let inputHtml = '';
+            if (q.type === 'choice') {
+                const letters = ['A', 'B', 'C', 'D'];
+                let optsHtml = '';
+                for (let j = 0; j < q.options.length; j++) {
+                    const checked = (userSelections[i] === j) ? 'checked' : '';
+                    optsHtml += `
+                                <label>
+                                    <input type="radio" name="q${i}" value="${j}" ${checked}>
+                                    ${letters[j]}. ${q.options[j]}
+                                </label>
+                            `;
+                }
+                inputHtml = `<div class="options">${optsHtml}</div>`;
+            } else if (q.type === 'tf') {
+                const sel = userSelections[i];
+                const checkedTrue = (sel === 0) ? 'checked' : '';
+                const checkedFalse = (sel === 1) ? 'checked' : '';
+                inputHtml = `
+                            <div class="tf-group">
+                                <label><input type="radio" name="q${i}" value="0" ${checkedTrue}> ✔ 正确 (对)</label>
+                                <label><input type="radio" name="q${i}" value="1" ${checkedFalse}> ✘ 错误 (错)</label>
+                            </div>
+                        `;
+            } else if (q.type === 'fill') {
+                const val = userSelections[i] || '';
+                inputHtml = `
+                            <div class="options">
+                                <label style="background:transparent;border:none;padding:0;">
+                                    <span style="font-weight:500;color:#555;">填写答案：</span>
+                                    <input type="text" class="fill-input" data-index="${i}" value="${val}" placeholder="输入答案...">
+                                </label>
+                            </div>
+                        `;
+            }
+
+            const typeLabel = q.type === 'choice' ? '选择' : (q.type === 'tf' ? '判断' : '填空');
+
+            html += `
+                        <div class="question-card ${extraClass}" data-index="${i}">
+                            <div class="q-text"><span class="q-type">${typeLabel}</span> ${q.question}</div>
+                            ${inputHtml}
+                            ${answerDisplay}
+                        </div>
+                    `;
+        }
+
+        questionListEl.innerHTML = html;
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const name = this.name;
+                const idx = parseInt(name.substring(1));
+                if (this.checked) {
+                    userSelections[idx] = parseInt(this.value);
+                    if (resultStatus[idx] !== null) {
+                        resultStatus[idx] = null;
+                        renderQuestions();
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.fill-input').forEach(inp => {
+            inp.addEventListener('input', function() {
+                const idx = parseInt(this.dataset.index);
+                userSelections[idx] = this.value.trim();
+                if (resultStatus[idx] !== null) {
+                    resultStatus[idx] = null;
+                    const card = this.closest('.question-card');
+                    card.classList.remove('correct', 'wrong');
+                    const hint = card.querySelector('.result-hint');
+                    if (hint) hint.classList.remove('show');
+                    updateSummary();
+                }
+            });
+        });
+
+        totalCountSpan.textContent = questionBank.length;
+        totalNumEl.textContent = questionBank.length;
+        updateSummary();
+    }
+
+    function updateSummary() {
+        let correct = 0;
+        for (let i = 0; i < resultStatus.length; i++) {
+            if (resultStatus[i] === 'correct') correct++;
+        }
+        correctNumEl.textContent = correct;
+    }
+
+    function handleSubmit() {
+        let allDone = true;
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const val = userSelections[i];
+            if (q.type === 'fill') {
+                if (!val || val.trim() === '') { allDone = false; break; }
+            } else {
+                if (val === null || val === -1) { allDone = false; break; }
+            }
+        }
+        if (!allDone) {
+            alert('⚠️ 还有题目未作答，请完成全部题目后再提交！');
+            return;
+        }
+
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const userAns = userSelections[i];
+            let isCorrect = false;
+            if (q.type === 'choice' || q.type === 'tf') {
+                isCorrect = (userAns === q.answer);
+            } else {
+                isCorrect = (userAns.trim() === q.answer);
+            }
+            resultStatus[i] = isCorrect ? 'correct' : 'wrong';
+        }
+
+        renderQuestions();
+        const firstWrong = document.querySelector('.question-card.wrong');
+        if (firstWrong) {
+            firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        updateSummary();
+    }
+
+    function handleReset() {
+        userSelections = new Array(questionBank.length).fill(null);
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        resultStatus = new Array(questionBank.length).fill(null);
+        renderQuestions();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleClear() {
+        userSelections = new Array(questionBank.length).fill(null);
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        resultStatus = new Array(questionBank.length).fill(null);
+        renderQuestions();
+        updateSummary();
+    }
+
+    function init() {
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        renderQuestions();
+        submitBtn.addEventListener('click', handleSubmit);
+        resetBtn.addEventListener('click', handleReset);
+        clearBtn.addEventListener('click', handleClear);
+    }
+
+    init();
+</script>
+
+</body>
+</html>

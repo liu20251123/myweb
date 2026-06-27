@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>操作系统 刷题练习 003</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f0f2f5;
+            font-family: -apple-system, "Microsoft YaHei", sans-serif;
+            padding: 25px 16px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: white;
+            border-radius: 16px;
+            padding: 28px 30px 36px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid #4a6cf7;
+            padding-bottom: 14px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .header h1 {
+            font-size: 22px;
+            color: #1a1a2e;
+        }
+
+        .header .info {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .header .info span {
+            font-weight: 600;
+            color: #4a6cf7;
+        }
+
+        .question-card {
+            background: #f8f9fc;
+            border-radius: 12px;
+            padding: 18px 20px 20px;
+            margin-bottom: 18px;
+            border-left: 4px solid #4a6cf7;
+            transition: 0.2s;
+        }
+
+        .question-card.correct {
+            border-left-color: #22b573;
+            background: #f0faf5;
+        }
+
+        .question-card.wrong {
+            border-left-color: #e74c3c;
+            background: #fdf0ef;
+        }
+
+        .question-card .q-text {
+            font-weight: 500;
+            font-size: 15px;
+            color: #1a1a2e;
+            margin-bottom: 12px;
+            line-height: 1.7;
+        }
+
+        .question-card .q-text .q-type {
+            display: inline-block;
+            font-size: 12px;
+            background: #e8ecf4;
+            color: #555;
+            padding: 0 10px;
+            border-radius: 12px;
+            margin-right: 8px;
+            font-weight: 600;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-left: 4px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 14px;
+            color: #2d2d3f;
+            padding: 7px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #e2e6ee;
+            transition: 0.15s;
+        }
+
+        .options label:hover {
+            background: #eef2ff;
+            border-color: #b3c6ff;
+        }
+
+        .options input[type="radio"],
+        .options input[type="text"] {
+            flex-shrink: 0;
+        }
+
+        .options input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+        }
+
+        .options input[type="text"] {
+            flex: 1;
+            padding: 6px 12px;
+            border: 1px solid #d0d5e0;
+            border-radius: 6px;
+            font-size: 14px;
+            outline: none;
+            transition: 0.15s;
+            min-width: 100px;
+        }
+
+        .options input[type="text"]:focus {
+            border-color: #4a6cf7;
+            box-shadow: 0 0 0 3px rgba(74, 108, 247, 0.15);
+        }
+
+        .tf-group {
+            display: flex;
+            gap: 16px;
+            padding-left: 4px;
+        }
+
+        .tf-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            padding: 6px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            background: white;
+            border: 1px solid #e2e6ee;
+            transition: 0.15s;
+        }
+
+        .tf-group label:hover {
+            background: #eef2ff;
+            border-color: #b3c6ff;
+        }
+
+        .tf-group input[type="radio"] {
+            width: 16px;
+            height: 16px;
+            accent-color: #4a6cf7;
+            cursor: pointer;
+        }
+
+        .result-hint {
+            margin-top: 12px;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            display: none;
+        }
+
+        .result-hint.show {
+            display: block;
+        }
+
+        .result-hint.correct {
+            background: #d4edda;
+            color: #0e6b3e;
+        }
+
+        .result-hint.wrong {
+            background: #f8d7da;
+            color: #a11f2e;
+        }
+
+        .result-hint .answer-text {
+            font-weight: 700;
+            color: #c0392b;
+        }
+
+        .btn-group {
+            margin-top: 16px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 11px 32px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            background: #e8ecf4;
+            color: #2d2d3f;
+        }
+
+        .btn-primary {
+            background: #4a6cf7;
+            color: white;
+            box-shadow: 0 4px 12px rgba(74, 108, 247, 0.3);
+        }
+        .btn-primary:hover {
+            background: #3a5cd9;
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background: #22b573;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #1a9a62;
+        }
+
+        .btn-danger {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-danger:hover {
+            background: #c0392b;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+        .btn-warning:hover {
+            background: #d68910;
+        }
+
+        .summary {
+            margin-top: 24px;
+            padding: 16px 22px;
+            background: #f0f2f8;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            font-size: 15px;
+        }
+
+        .summary .score {
+            font-weight: 700;
+            font-size: 20px;
+            color: #1a1a2e;
+        }
+
+        .summary .score span {
+            color: #4a6cf7;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #bbb;
+            border-top: 1px solid #eee;
+            padding-top: 16px;
+        }
+
+        @media (max-width: 540px) {
+            .container {
+                padding: 16px 12px;
+            }
+            .question-card {
+                padding: 14px 12px;
+            }
+            .btn {
+                padding: 9px 18px;
+                font-size: 13px;
+            }
+            .header h1 {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>📚 操作系统 003 · 刷题</h1>
+        <div class="info">共 <span id="totalCount">0</span> 题</div>
+    </div>
+
+    <div id="questionList"></div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="submitBtn">✅ 提交并查看错题</button>
+        <button class="btn btn-success" id="resetBtn">🔄 重新作答</button>
+        <button class="btn btn-warning" id="clearBtn">🗑️ 清空选择</button>
+    </div>
+
+    <div class="summary">
+        <span>📊 结果</span>
+        <span class="score">正确 <span id="correctNum">0</span> / 共 <span id="totalNum">0</span></span>
+    </div>
+
+    <div class="footer">选完答案后点「提交并查看错题」→ 错题自动标红并显示正确答案</div>
+</div>
+
+<script>
+    // ================================================================
+    // 题库：选择题 + 判断题 + 填空题（去掉简答题）
+    // 题号从1开始连续编号
+    // ================================================================
+    const questionBank = [
+        // ===== 选择题 (原1-20, 50-52, 60-76) =====
+        { type: 'choice', question: '1. 在操作系统中，临界区是（  ）。', options: ['一个缓冲区', '一段共享数据区', '一段程序', '一个互斥资源'], answer: 2 },
+        { type: 'choice', question: '2. 以下（  ）不属于临界资源。', options: ['打印机', 'CPU', '共享变量', '共享缓冲区'], answer: 1 },
+        { type: 'choice', question: '3. 在操作系统中，要对并发进程进行同步的原因是（  ）。', options: ['进程必须在有限的时间内完成', '进程具有动态性', '并发进程具有异步性', '进程具有结构性'], answer: 2 },
+        { type: 'choice', question: '4. 下述选项中体现原语特点的是（  ）。', options: ['并发性', '共享性', '结构性', '执行过程不可中断'], answer: 3 },
+        { type: 'choice', question: '5. 在操作系统中，P、V操作均是一种（  ）。', options: ['机器指令', '时钟中断', '作业控制命令', '原语'], answer: 3 },
+        { type: 'choice', question: '6. 进程从执行状态到阻塞状态可能是由于（  ）。', options: ['进程调度程序的调度', '当前运行进程的时间片用完', '当前运行的进程执行了P操作', '当前运行进程执行了V操作'], answer: 2 },
+        { type: 'choice', question: '7. 在非抢占式调度下，处于运行状态的进程执行V操作后，其本身的状态（  ）。', options: ['不变', '要变', '可能要变', '可能不变'], answer: 0 },
+        { type: 'choice', question: '8. 用V操作唤醒一个等待进程时，被唤醒进程的状态变为（  ）。', options: ['运行', '阻塞', '就绪', '完成'], answer: 2 },
+        { type: 'choice', question: '9. 在用信号量机制实现互斥时，信号量的初值为（  ）。', options: ['0', '1', '-1', '2'], answer: 1 },
+        { type: 'choice', question: '10. 用P、V操作实现进程同步，信号量的初值为（  ）。', options: ['-1', '0', '1', '由资源数目确定'], answer: 1 },
+        { type: 'choice', question: '11. 在9个生产者、6个消费者共享8个单元缓冲区的生产者一消费者问题中，互斥使用缓冲区的信号量的初始值为（  ）。', options: ['1', '6', '8', '9'], answer: 0 },
+        { type: 'choice', question: '12. 对信号量X执行P操作时，若（  ）则进程进入等待状态。', options: ['X-1<0', 'X-1≤0', 'X-1>0', 'X-1≥0'], answer: 0 },
+        { type: 'choice', question: '13. 对信号量X执行V操作时，若（  ）则唤醒阻塞队列中的队首进程。', options: ['X+1<0', 'X+1≤0', 'X+1>0', 'X+1≥0'], answer: 1 },
+        { type: 'choice', question: '14. 若信号量S的初值为2，当前值为-1，则表示有（  ）等待进程。', options: ['0个', '1个', '2个', '3个'], answer: 1 },
+        { type: 'choice', question: '15. 对于两个并发进程，设互斥信号量为mutex（初值为1），若mutex=-1，则（  ）。', options: ['表示没有进程进入临界区', '表示有一个进程进入临界区', '表示有一个进程进入临界区，另一个进程等待进入', '表示有两个进程进入临界区'], answer: 2 },
+        { type: 'choice', question: '16. 当一进程因在互斥信号量mutex上执行P（mutex）操作而被阻塞，则此时mutex的值为（  ）。', options: ['大于0', '小于0', '大于等于0', '小于等于0'], answer: 1 },
+        { type: 'choice', question: '17. 当一进程因在互斥信号量mutex上执行V（mutex）操作而导致唤醒另一个进程时，则此时mutex的值为（  ）。', options: ['大于0', '小于0', '大于等于0', '小于等于0'], answer: 1 },
+        { type: 'choice', question: '18. 如果系统中有n个进程，则就绪队列中进程的个数最多为（  ）。', options: ['n+1', 'n', 'n-1', '1'], answer: 2 },
+        { type: 'choice', question: '19. 若一个系统中共有5个并发进程涉及某个相同的变量A，则变量A的相关临界区是由（  ）个临界区构成的。', options: ['1', '3', '5', '6'], answer: 2 },
+        { type: 'choice', question: '20. 设有n个进程共用一个相同的程序段，如果每次最多允许m个进程（m≤n）同时进入临界区，则信号量的初值为（  ）。', options: ['n', 'm', 'm-n', '-m'], answer: 1 },
+        // 原50-52
+        { type: 'choice', question: '21. 信箱通信是一种（  ）通信方式。', options: ['直接通信', '间接通信', '低级通信', '信号量'], answer: 1 },
+        { type: 'choice', question: '22. 在间接通信时，用Send（N，M）原语发送信件，其中N表示（  ）。', options: ['发送信件的进程名', '接收信件的进程名', '信箱名', '信件内容'], answer: 2 },
+        { type: 'choice', question: '23. 用信箱实现进程间相互通信的通信机制要有两个通信原语，它们是（  ）。', options: ['"发送"原语和"执行"原语', '"就绪"原语和"执行"原语', '"发送"原语和"接收"原语', '"就绪"原语和"接收"原语'], answer: 2 },
+        // 原60-76
+        { type: 'choice', question: '24. 在操作系统中，死锁出现是指（  ）。', options: ['计算机系统发生重大故障', '资源个数远远小于进程数', '若干进程因竞争资源而无限等待其他进程释放已占有的资源', '进程同时申请的资源数超过资源总数'], answer: 2 },
+        { type: 'choice', question: '25. 在（  ）的情况下，系统出现死锁。', options: ['计算机系统发生了重大故障', '有多个封锁的进程同时存在', '若干进程因竞争资源而无休止地相互等待他方释放已占有的资源', '资源数远远小于进程数或进程同时申请的资源数远远超过资源总数'], answer: 2 },
+        { type: 'choice', question: '26. 当出现（  ）情况下，系统可能出现死锁。', options: ['进程释放资源', '一个进程进入死循环', '多个进程竞争资源出现了循环等待', '多个进程竞争共享型设备'], answer: 2 },
+        { type: 'choice', question: '27. 为多道程序提供的可共享资源不足时，可能出现死锁。但是在进程之间不适当的（  ）也可能产生死锁。', options: ['进程优先权', '资源的线性分配', '进程推进顺序', '分配队列优先权'], answer: 2 },
+        { type: 'choice', question: '28. 采用资源剥夺法可以解除死锁，还可以采用（  ）方法解除死锁。', options: ['执行并行操作', '撤销进程', '拒绝分配新资源', '修改信号量'], answer: 1 },
+        { type: 'choice', question: '29. 若系统在分配资源时不加以特别的限制，则可采用死锁检测的方法来解决死锁问题。所以该系统（  ）。', options: ['提高了资源利用率', '不会发生死锁', '有时要抢夺某进程的资源进行再分配', '能加快进程的执行速度'], answer: 0 },
+        { type: 'choice', question: '30. 死锁产生的原因之一是（  ）。', options: ['系统中没有采用SPOOLing技术', '使用的P、V操作过多', '有共享资源存在', '资源分配不当'], answer: 3 },
+        { type: 'choice', question: '31. 产生死锁的4个必要条件是：互斥、（  ）、循环等待和不剥夺。', options: ['请求与阻塞', '请求与保持', '请求与释放', '释放与阻塞'], answer: 1 },
+        { type: 'choice', question: '32. 一个进程在获得资源后，只能在使用完资源后由自己释放，这属于死锁必要条件的（  ）。', options: ['互斥条件', '请求和释放条件', '不剥夺条件', '循环等待条件'], answer: 2 },
+        { type: 'choice', question: '33. 死锁的预防是根据（  ）而采取措施实现的。', options: ['配置足够的系统资源', '使进程的推进顺序合理', '破坏死锁的4个必要条件之一', '防止系统进入不安全状态'], answer: 2 },
+        { type: 'choice', question: '34. 资源的有序分配策略可以破坏死锁的（  ）条件。', options: ['互斥', '请求和保持', '不剥夺', '循环等待'], answer: 3 },
+        { type: 'choice', question: '35. 发生死锁的必要条件有4个，要防止死锁的发生，可以通过破坏这4个必要条件之一来实现，但（  ）条件不仅不能破坏，反而要保证。', options: ['互斥', '不可抢占', '部分分配', '循环等待'], answer: 0 },
+        { type: 'choice', question: '36. 某系统中有11台打印机，N个进程共享打印机资源，每个进程要求3台。当N的取值不超过（  ）时，系统不会发生死锁。', options: ['4', '5', '6', '7'], answer: 1 },
+        { type: 'choice', question: '37. 银行家算法在解决死锁问题中是用于（  ）的。', options: ['预防死锁', '避免死锁', '检测死锁', '解除死锁'], answer: 1 },
+        { type: 'choice', question: '38. 某系统中有3个并发进程，都需要同类资源4个，试问该系统不会发生死锁的最少资源数是（  ）。', options: ['9', '10', '11', '12'], answer: 1 },
+        { type: 'choice', question: '39. 在下列解决死锁的方法中，属于死锁预防策略的是（  ）。', options: ['银行家算法', '有序资源分配法', '死锁检测法', '资源分配图化简法'], answer: 1 },
+        { type: 'choice', question: '40. 以下关于预防死锁的论述中正确的是（  ）。', options: ['由于产生死锁的根本原因是系统资源不足，因而预防死锁的有效方法是根据系统规模配置足够的系统资源', '由于产生死锁的根本原因是进程推进顺序不当，因而预防死锁的有效方法是使进程的推进顺序合法', '因为只要系统不进入不安全状态，便不会产生死锁，故预防死锁的有效方法是防止系统进入不安全状态', '可以通过破坏产生死锁的4个必要条件之一或其中几个的方法来预防发生死锁'], answer: 3 },
+
+        // ===== 判断题 (原31-37, 54-57, 88-99) =====
+        { type: 'tf', question: '41. 对临界资源应采用互斥访问方式来实现共享。', answer: true },
+        { type: 'tf', question: '42. 仅当一个进程退出临界区以后，另一个进程才能进入相应的临界区。', answer: true },
+        { type: 'tf', question: '43. 如果信号量S的当前值为-5，则表示系统中共有5个进程。', answer: false },
+        { type: 'tf', question: '44. 进程间的互斥是一种特殊的同步关系。', answer: true },
+        { type: 'tf', question: '45. P、V操作只能实现进程互斥，不能实现进程同步。', answer: false },
+        { type: 'tf', question: '46. P、V操作是一种原语，在执行时不能打断。', answer: true },
+        { type: 'tf', question: '47. 在信号量上除了能执行P、V操作外，不能执行其他任何操作。', answer: false },
+        // 原54-57
+        { type: 'tf', question: '48. 进程通信只能采用P、V操作。', answer: false },
+        { type: 'tf', question: '49. P、V操作可看成是进程之间的一种通信方式。', answer: true },
+        { type: 'tf', question: '50. 进程之间采用高级通信方式时，进程间利用P、V操作来交换信息。', answer: false },
+        { type: 'tf', question: '51. 在管道通信中，管道是一个普通的共享文件。', answer: true },
+        // 原88-99
+        { type: 'tf', question: '52. 当进程数大于资源数时，进程竞争资源必然产生死锁。', answer: false },
+        { type: 'tf', question: '53. 死锁预防是排除死锁的静态策略。', answer: false },
+        { type: 'tf', question: '54. 产生死锁后，系统未必处于不安全状态。', answer: false },
+        { type: 'tf', question: '55. 系统处于不安全状态不一定是死锁状态。', answer: true },
+        { type: 'tf', question: '56. 系统存在安全序列时，一定不会有死锁发生。', answer: true },
+        { type: 'tf', question: '57. 系统进入不安全状态时，必定会产生死锁。', answer: false },
+        { type: 'tf', question: '58. 导致死锁的4个必要条件在死锁时会同时发生。', answer: true },
+        { type: 'tf', question: '59. 若想预防死锁，4个必要条件必须同时具备。', answer: false },
+        { type: 'tf', question: '60. 银行家算法是防止死锁发生的方法之一。', answer: false },
+        { type: 'tf', question: '61. 一旦出现死锁，所有进程都不能运行。', answer: false },
+        { type: 'tf', question: '62. 所有进程都阻塞时系统一定陷入死锁。', answer: false },
+        { type: 'tf', question: '63. 参与死锁的进程至少有两个已经占有资源。', answer: true },
+
+        // ===== 填空题 (原21-30, 53, 77-87) =====
+        { type: 'fill', question: '64. 原语是一种特殊的广义指令，又称原子操作，它执行应该是（  ）的。', answer: '不可被中断' },
+        { type: 'fill', question: '65. 执行一次信号量S的P操作，使S.value的值减1后，如果S.value的值（  ）时，调用进程阻塞等待。', answer: '小于0' },
+        { type: 'fill', question: '66. 每执行一次P操作，信号量S的值减1，如果S≥0，则该进程（  ）。', answer: '继续执行' },
+        { type: 'fill', question: '67. 每执行一次V操作，信号量S的值加1，若S≤0，则从对应的（  ）队列中唤醒一个进程。', answer: '阻塞' },
+        { type: 'fill', question: '68. （  ）是指并发进程之间存在一种制约关系，一个进程的执行依赖另一个进程的消息，当一个进程没有得到另一个进程的消息时应等待，直到消息到达才被唤醒。', answer: '进程同步' },
+        { type: 'fill', question: '69. （  ）是指当若干个并发进程都要使用某一共享资源时，任何时刻最多只允许一个进程去使用，其他要使用该资源的进程必须等待，直到占用资源者释放了该资源。', answer: '进程互斥' },
+        { type: 'fill', question: '70. 利用P、V操作管理相关临界区时，必须成对出现，在进入临界区之前要调用（  ）。', answer: 'P操作' },
+        { type: 'fill', question: '71. 在利用信号量实现进程互斥时，应将（  ）置于P操作和V操作之间。', answer: '临界区' },
+        { type: 'fill', question: '72. 有m个进程共享同一临界资源，若使用信号量机制实现对临界资源的互斥访问，则信号量值的变化范围是（  ）。', answer: '1-m到1' },
+        { type: 'fill', question: '73. 设有4个进程共享一程序段，而每次最多允许两个进程进入该程序段，则信号量的取值范围是（  ）。', answer: '-2到2' },
+        // 原53
+        { type: 'fill', question: '74. 最基本的通信原语有两条，它们是send原语和（  ）原语。', answer: 'receive' },
+        // 原77-87
+        { type: 'fill', question: '75. 计算机系统产生死锁的根本原因是（  ）和进程推进顺序不当。', answer: '资源有限' },
+        { type: 'fill', question: '76. 两个进程争夺同一个资源时，（  ）（填写"一定"或"不一定"）产生死锁。', answer: '不一定' },
+        { type: 'fill', question: '77. 产生死锁的4个必要条件是互斥条件、不可剥夺条件、请求与保持条件和（  ）。', answer: '环路等待' },
+        { type: 'fill', question: '78. 解决死锁的方法分为死锁的预防、死锁的避免、死锁的检测和（  ）。', answer: '死锁的解除' },
+        { type: 'fill', question: '79. 避免死锁的实质是（  ）。', answer: '保证系统一直处于安全状态' },
+        { type: 'fill', question: '80. 只要能保持系统处于安全状态就可（  ）死锁的发生。', answer: '避免' },
+        { type: 'fill', question: '81. 当若干进程需求资源的总数大于系统能提供的资源数时，进程间就会出现竞争资源的现象，如果系统对资源（  ）就会引起死锁。', answer: '分配不当' },
+        { type: 'fill', question: '82. 如果操作系统能保证所有的进程在有限时间内得到需要的全部资源，并顺利执行完毕，则称系统处于（  ）。', answer: '安全状态' },
+        { type: 'fill', question: '83. 操作系统中要兼顾资源的使用效率和安全可靠，对不同的资源采用不同的分配策略，往往采用死锁的预防、避免和（  ）的混合策略。', answer: '检测' },
+        { type: 'fill', question: '84. 解除死锁的方法有两种，一种是（  ）一个或几个进程的执行以破坏循环等待，另一种是从涉及死锁的进程中抢夺资源。', answer: '终止' },
+        { type: 'fill', question: '85. 如果资源分配图中无环路，则系统中（  ）发生。', answer: '没有死锁' },
+    ];
+
+    let userSelections = new Array(questionBank.length).fill(null);
+    let resultStatus = new Array(questionBank.length).fill(null);
+
+    const questionListEl = document.getElementById('questionList');
+    const submitBtn = document.getElementById('submitBtn');
+    const resetBtn = document.getElementById('resetBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const correctNumEl = document.getElementById('correctNum');
+    const totalNumEl = document.getElementById('totalNum');
+    const totalCountSpan = document.getElementById('totalCount');
+
+    function renderQuestions() {
+        let html = '';
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const status = resultStatus[i];
+
+            let answerDisplay = '';
+            if (status === 'correct') {
+                answerDisplay = `<div class="result-hint show correct">✅ 正确</div>`;
+            } else if (status === 'wrong') {
+                let correctStr = '';
+                if (q.type === 'choice') {
+                    const letters = ['A', 'B', 'C', 'D'];
+                    correctStr = letters[q.answer] + '. ' + q.options[q.answer];
+                } else if (q.type === 'tf') {
+                    correctStr = q.answer ? '✔ 正确 (对)' : '✘ 错误 (错)';
+                } else if (q.type === 'fill') {
+                    correctStr = q.answer;
+                }
+                answerDisplay = `<div class="result-hint show wrong">❌ 错误 &nbsp;|&nbsp; 正确答案：<span class="answer-text">${correctStr}</span></div>`;
+            }
+
+            let extraClass = '';
+            if (status === 'correct') extraClass = 'correct';
+            else if (status === 'wrong') extraClass = 'wrong';
+
+            let inputHtml = '';
+            if (q.type === 'choice') {
+                const letters = ['A', 'B', 'C', 'D'];
+                let optsHtml = '';
+                for (let j = 0; j < q.options.length; j++) {
+                    const checked = (userSelections[i] === j) ? 'checked' : '';
+                    optsHtml += `
+                                <label>
+                                    <input type="radio" name="q${i}" value="${j}" ${checked}>
+                                    ${letters[j]}. ${q.options[j]}
+                                </label>
+                            `;
+                }
+                inputHtml = `<div class="options">${optsHtml}</div>`;
+            } else if (q.type === 'tf') {
+                const sel = userSelections[i];
+                const checkedTrue = (sel === 0) ? 'checked' : '';
+                const checkedFalse = (sel === 1) ? 'checked' : '';
+                inputHtml = `
+                            <div class="tf-group">
+                                <label><input type="radio" name="q${i}" value="0" ${checkedTrue}> ✔ 正确 (对)</label>
+                                <label><input type="radio" name="q${i}" value="1" ${checkedFalse}> ✘ 错误 (错)</label>
+                            </div>
+                        `;
+            } else if (q.type === 'fill') {
+                const val = userSelections[i] || '';
+                inputHtml = `
+                            <div class="options">
+                                <label style="background:transparent;border:none;padding:0;">
+                                    <span style="font-weight:500;color:#555;">填写答案：</span>
+                                    <input type="text" class="fill-input" data-index="${i}" value="${val}" placeholder="输入答案...">
+                                </label>
+                            </div>
+                        `;
+            }
+
+            const typeLabel = q.type === 'choice' ? '选择' : (q.type === 'tf' ? '判断' : '填空');
+
+            html += `
+                        <div class="question-card ${extraClass}" data-index="${i}">
+                            <div class="q-text"><span class="q-type">${typeLabel}</span> ${q.question}</div>
+                            ${inputHtml}
+                            ${answerDisplay}
+                        </div>
+                    `;
+        }
+
+        questionListEl.innerHTML = html;
+
+        document.querySelectorAll('input[type="radio"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const name = this.name;
+                const idx = parseInt(name.substring(1));
+                if (this.checked) {
+                    userSelections[idx] = parseInt(this.value);
+                    if (resultStatus[idx] !== null) {
+                        resultStatus[idx] = null;
+                        renderQuestions();
+                    }
+                }
+            });
+        });
+
+        document.querySelectorAll('.fill-input').forEach(inp => {
+            inp.addEventListener('input', function() {
+                const idx = parseInt(this.dataset.index);
+                userSelections[idx] = this.value.trim();
+                if (resultStatus[idx] !== null) {
+                    resultStatus[idx] = null;
+                    const card = this.closest('.question-card');
+                    card.classList.remove('correct', 'wrong');
+                    const hint = card.querySelector('.result-hint');
+                    if (hint) hint.classList.remove('show');
+                    updateSummary();
+                }
+            });
+        });
+
+        totalCountSpan.textContent = questionBank.length;
+        totalNumEl.textContent = questionBank.length;
+        updateSummary();
+    }
+
+    function updateSummary() {
+        let correct = 0;
+        for (let i = 0; i < resultStatus.length; i++) {
+            if (resultStatus[i] === 'correct') correct++;
+        }
+        correctNumEl.textContent = correct;
+    }
+
+    function handleSubmit() {
+        let allDone = true;
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const val = userSelections[i];
+            if (q.type === 'fill') {
+                if (!val || val.trim() === '') { allDone = false; break; }
+            } else {
+                if (val === null || val === -1) { allDone = false; break; }
+            }
+        }
+        if (!allDone) {
+            alert('⚠️ 还有题目未作答，请完成全部题目后再提交！');
+            return;
+        }
+
+        for (let i = 0; i < questionBank.length; i++) {
+            const q = questionBank[i];
+            const userAns = userSelections[i];
+            let isCorrect = false;
+            if (q.type === 'choice' || q.type === 'tf') {
+                isCorrect = (userAns === q.answer);
+            } else {
+                isCorrect = (userAns.trim() === q.answer);
+            }
+            resultStatus[i] = isCorrect ? 'correct' : 'wrong';
+        }
+
+        renderQuestions();
+        const firstWrong = document.querySelector('.question-card.wrong');
+        if (firstWrong) {
+            firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        updateSummary();
+    }
+
+    function handleReset() {
+        userSelections = new Array(questionBank.length).fill(null);
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        resultStatus = new Array(questionBank.length).fill(null);
+        renderQuestions();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleClear() {
+        userSelections = new Array(questionBank.length).fill(null);
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        resultStatus = new Array(questionBank.length).fill(null);
+        renderQuestions();
+        updateSummary();
+    }
+
+    function init() {
+        for (let i = 0; i < questionBank.length; i++) {
+            if (questionBank[i].type === 'fill') userSelections[i] = '';
+            else userSelections[i] = null;
+        }
+        renderQuestions();
+        submitBtn.addEventListener('click', handleSubmit);
+        resetBtn.addEventListener('click', handleReset);
+        clearBtn.addEventListener('click', handleClear);
+    }
+
+    init();
+</script>
+
+</body>
+</html>
