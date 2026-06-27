@@ -563,7 +563,7 @@ function handleSubmit() {
         const userAns = userSelections[i];
         let isCorrect = false;
         if (q.type === 'choice' || q.type === 'tf') {
-            isCorrect = (userAns === q.answer);
+            isCorrect = (userAns === (q.answer ? 0 : 1));
         } else {
             isCorrect = (userAns.trim() === q.answer);
         }
