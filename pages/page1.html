@@ -546,7 +546,9 @@
         }
         correctNumEl.textContent = correct;
     }
-
+ // ================================================================
+// 函数1：collectAllAnswers - 从页面收集所有答案
+// ================================================================
 function collectAllAnswers() {
     // 读取所有选中的 radio
     document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
@@ -621,6 +623,8 @@ for (let i = 0; i < questionBank.length; i++) {
     // 第六步：更新统计
     updateSummary();
 }
+
+
 
     function handleReset() {
         userSelections = new Array(questionBank.length).fill(null);
