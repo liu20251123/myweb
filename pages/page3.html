@@ -225,7 +225,7 @@
     // ================================================================
     const questionBank = [
         // ===== 选择题 (原1-25, 28-38, 47-54, 75-83) =====
-        { type: 'choice', question: '1. 存储管理的目的是（  ）。', options: ['方便用户', '提高内存利用率', '方便用户和提高内存利用率', '增加内存实际容量'], answer: 2 },
+       { type: 'choice', question: '1. 存储管理的目的是（  ）。', options: ['方便用户', '提高内存利用率', '方便用户和提高内存利用率', '增加内存实际容量'], answer: 2 },
         { type: 'choice', question: '2. 对主存储器的访问，是（  ）。', options: ['以段为单位', '以字节或字为单位', '随存储器的管理方案不同而异', '以用户的逻辑记录为单位'], answer: 1 },
         { type: 'choice', question: '3. 源程序经过编译后所生成的目标程序所对应的地址空间是（  ）。', options: ['名空间', '逻辑地址空间', '存储空间', '物理地址空间'], answer: 1 },
         { type: 'choice', question: '4. 把作业空间中使用的逻辑地址变为内存中物理地址称为（  ）。', options: ['加载', '重定位', '物理化', '逻辑化'], answer: 1 },
@@ -333,35 +333,6 @@
         { type: 'tf', question: '96. 在请求分页存储系统中，页面长度固定并且是硬件决定的。', answer: true },
         { type: 'tf', question: '97. 大多数虚拟系统采用最佳置换算法（OPT）是因为它确实可以得到最小的缺页率。', answer: false },
         { type: 'tf', question: '98. 在请求分页存储管理中，页面淘汰所花费的时间不属于系统开销。', answer: false },
-
-        // ===== 填空题 (原13-18, 39-41, 55-60, 84-87, 123-126) =====
-        { type: 'fill', question: '99. （  ）可被CPU直接访问，但CPU不能直接访问辅存。', answer: '主存' },
-        { type: 'fill', question: '100. 存储管理是对主存空间的（  ）进行管理。', answer: '分配' },
-        { type: 'fill', question: '101. 为了防止各个进程之间相互干扰和保护各个区域内的信息不被破坏，必须实现（  ）。', answer: '存储保护' },
-        { type: 'fill', question: '102. 把逻辑地址转换成绝对地址的工作称为（  ）。', answer: '重定位' },
-        { type: 'fill', question: '103. 重定位方式有两种，其中（  ）是指把作业的指令和数据地址在作业装入时全部转换成绝对地址。', answer: '静态重定位' },
-        { type: 'fill', question: '104. 内存管理中引入对换技术获得好处是以牺牲（  ）为代价的。', answer: 'CPU时间' },
-        // 原39-41
-        { type: 'fill', question: '105. 多分区的存储管理可采用（  ）或动态分区分配方式进行管理。', answer: '固定分区' },
-        { type: 'fill', question: '106. 动态分区分配的首次适应算法要求空闲分区按（  ）的顺序链接成一个空闲分区链。', answer: '地址递增' },
-        { type: 'fill', question: '107. 动态分区分配的最佳适应算法把空闲区按长度（  ）登记在空闲分区表中，使找到的第一个满足作业要求的分区最小。', answer: '递增' },
-        // 原55-60
-        { type: 'fill', question: '108. 在分页存储管理中，要求程序中的逻辑地址可以分页，页的大小与（  ）大小一致。', answer: '物理块' },
-        { type: 'fill', question: '109. 作业的页表中包含逻辑地址中的页号与主存中（  ）的对应关系。', answer: '物理块号' },
-        { type: 'fill', question: '110. 在基本分页存储管理中，按给定的逻辑地址读写时，要访问两次主存，第1次是（  ），第2次是按计算出来的物理地址进行读写。', answer: '查页表' },
-        { type: 'fill', question: '111. 分页存储管理做重定位时，实际上是把（  ）作为物理地址的高位地址，而块（或页）内地址作为它的低地址部分。', answer: '块号' },
-        { type: 'fill', question: '112. 在某基本分页存储管理中，逻辑地址为24位，其中8位表示页号，则允许的最大页面大小是（  ）字节。', answer: '65536' },
-        { type: 'fill', question: '113. 在基本分页存储管理系统中，把一段时间内总是经常访问的某页表项存放在（  ）中，可实现快速查找并提高指令执行速度。', answer: '快表' },
-        // 原84-87
-        { type: 'fill', question: '114. 当存储器采用段页式管理时，主存被划分为定长的（  ）。', answer: '块' },
-        { type: 'fill', question: '115. 一个用户程序中含有代码段A、代码段B和数据段C，当该程序在段页式管理机构中运行时，系统至少为该用户程序建立（  ）个段表。', answer: '1' },
-        { type: 'fill', question: '116. 在分段存储管理中要有硬件地址转换机构做支撑，段表的每个表项至少包含（  ）信息。', answer: '段长' },
-        { type: 'fill', question: '117. 若分段管理中供用户使用的逻辑地址为24位，其中段内地址占16位，则用户程序最多可以分为（  ）个段。', answer: '256' },
-        // 原123-126
-        { type: 'fill', question: '118. 在请求分页存储系统中，若访问的页面不在主存中，则产生（  ），由操作系统把当前所需的页面装入主存中。', answer: '缺页中断' },
-        { type: 'fill', question: '119. 缺页中断率与分配给作业的主存块数有关，一般地，分配给作业的主存块数多，能（  ）缺页中断率。', answer: '降低' },
-        { type: 'fill', question: '120. 在页面调度时，如果刚调出的页面又要立即装入，可装入不久的页面又要调出，这种频繁的装入/调出现象称为（  ）。', answer: '抖动' },
-        { type: 'fill', question: '121. 在请求段页式存储管理中，在不考虑使用快表的情况下，访问内存的每条指令需要3次访问内存，其中第（  ）次是查作业的页表。', answer: '3' },
     ];
 
     let userSelections = new Array(questionBank.length).fill(null);
@@ -545,15 +516,17 @@ function handleSubmit() {
     }
 
     // 第三步：逐题评分
-for (let i = 0; i < questionBank.length; i++) {
+    for (let i = 0; i < questionBank.length; i++) {
     const q = questionBank[i];
     const userAns = userSelections[i];
     let isCorrect = false;
-    if (q.type === 'choice' || q.type === 'tf') {
-        isCorrect = (userAns === (q.answer ? 0 : 1));   // ← 只改这一行
-    } else {
-        isCorrect = (userAns.trim() === q.answer);
+
+    if (q.type === 'choice') {
+        isCorrect = (userAns === q.answer);
+    } else if (q.type === 'tf') {
+        isCorrect = (userAns === (q.answer ? 0 : 1));
     }
+
     resultStatus[i] = isCorrect ? 'correct' : 'wrong';
 }
 
