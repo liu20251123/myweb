@@ -370,12 +370,7 @@
         { type: 'tf', question: '28. 当CPU处于用户态时，它可以执行所有的指令。', answer: false },
         { type: 'tf', question: '29. 操作系统的所有程序都必须常驻内存。', answer: false },
 
-        // ===== 第三部分：填空题 (共5题) =====
-        { type: 'fill', question: '30. 操作系统的4大功能是（  ）、存储器管理、设备管理、文件管理。', answer: '处理器调度' },
-        { type: 'fill', question: '31. 操作系统的基本特征是（  ）、共享性、虚拟性、异步性。', answer: '并发性' },
-        { type: 'fill', question: '32. 如果操作系统具有很强的交互性，可同时供多个用户使用，系统响应比较及时，则该操作系统属于（  ）类型。', answer: '分时系统' },
-        { type: 'fill', question: '33. 某分时系统中预计有50个用户同时上机，为使每个用户能在2s内得到响应，时间片最大限度为（  ）。', answer: '40ms' },
-        { type: 'fill', question: '34. 操作系统提供给程序员的接口是（  ）。', answer: '系统调用' },
+        
     ];
 
     let userSelections = new Array(questionBank.length).fill(null);
@@ -564,14 +559,9 @@ function handleSubmit() {
     let isCorrect = false;
 
     if (q.type === 'choice') {
-        // 选择题：直接比较数字
         isCorrect = (userAns === q.answer);
     } else if (q.type === 'tf') {
-        // 判断题：把布尔值转成 0/1 再比较
         isCorrect = (userAns === (q.answer ? 0 : 1));
-    } else {
-        // 填空题：字符串比较
-        isCorrect = (userAns.trim() === q.answer);
     }
 
     resultStatus[i] = isCorrect ? 'correct' : 'wrong';
