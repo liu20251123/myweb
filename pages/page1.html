@@ -599,24 +599,22 @@ function handleSubmit() {
     }
 
     // 第三步：逐题评分
-for (let i = 0; i < questionBank.length; i++) {
+    for (let i = 0; i < questionBank.length; i++) {
     const q = questionBank[i];
-    let userAns = userSelections[i];
+    const userAns = userSelections[i];
     let isCorrect = false;
 
-    if (q.type === 'choice' || q.type === 'tf') {
-        // ✅ 统一转成数字再比较
-        const userNum = parseInt(userAns);
-        let correctNum;
-        if (typeof q.answer === 'boolean') {
-            correctNum = q.answer ? 0 : 1;   // true→0, false→1
-        } else {
-            correctNum = parseInt(q.answer);
-        }
-        isCorrect = (userNum === correctNum);
+    if (q.type === 'choice') {
+        // 选择题：直接比较数字
+        isCorrect = (userAns === q.answer);
+    } else if (q.type === 'tf') {
+        // 判断题：把布尔值转成 0/1 再比较
+        isCorrect = (userAns === (q.answer ? 0 : 1));
     } else {
+        // 填空题：字符串比较
         isCorrect = (userAns.trim() === q.answer);
     }
+
     resultStatus[i] = isCorrect ? 'correct' : 'wrong';
 }
 
