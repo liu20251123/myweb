@@ -337,7 +337,7 @@
     // 题号从1开始连续编号
     // ================================================================
     const questionBank = [
-        // ===== 选择题 (原1-21, 49-67) =====
+      // ===== 选择题 (原1-21, 49-67) =====
         { type: 'choice', question: '1. 以下有关进程的描述中，错误的是（  ）。', options: ['进程是动态的概念', '进程执行需要处理器', '进程是有生命周期的', '进程是指令的集合'], answer: 3 },
         { type: 'choice', question: '2. 以下关于进程的描述中，正确的是（  ）。', options: ['进程获得CPU运行是通过调度实现的', '优先级是进程调度的重要依据，一旦确定就不能改变', '在单CPU的系统中，任意时刻都有一个进程处于运行状态', '进程申请CPU得不到满足时，其状态变为阻塞'], answer: 0 },
         { type: 'choice', question: '3. 并发进程指的是（  ）。', options: ['可并行执行的进程', '可同一时刻执行的进程', '在同一时间段内执行的进程', '不可中断的进程'], answer: 2 },
@@ -399,24 +399,6 @@
         { type: 'tf', question: '55. 在任何情况下采用短作业优先（SJF）调度算法肯定能使作业的平均周转时间最小。', answer: false },
         { type: 'tf', question: '56. 时间片的大小对轮转法（RR）的性能有很大的影响，时间片太短，会导致系统开销大大增加。', answer: true },
         { type: 'tf', question: '57. 在分时系统中，进程调度都采用优先级调度算法为主，短进程优先调度算法为辅。', answer: false },
-
-        // ===== 填空题 (原22-30, 68-73) =====
-        { type: 'fill', question: '58. 进程与程序的最主要区别在于进程具有（  ），而程序不具备这一特性。', answer: '动态性' },
-        { type: 'fill', question: '59. 进程由程序段、数据段和（  ）三部分组成，并且该部分还是进程存在的唯一标志。', answer: 'PCB' },
-        { type: 'fill', question: '60. 当系统创建一个进程时，系统就为其分配一个（  ），当进程被撤销时就将其收回。', answer: 'PCB' },
-        { type: 'fill', question: '61. 为了实现一个进程由等待状态转换为就绪状态的状态变化，操作系统应提供（  ）原语。', answer: '唤醒' },
-        { type: 'fill', question: '62. 正在运行的进程，因某种原因而暂时停止运行，等待某个事件的发生，此时该进程处于（  ）状态。', answer: '阻塞' },
-        { type: 'fill', question: '63. 如果一个进程从运行状态变为等待状态，或完成工作后撤销，则必定会发生（  ）。', answer: '进程切换' },
-        { type: 'fill', question: '64. 进程有两种基本队列，即等待队列和（  ）。', answer: '就绪队列' },
-        { type: 'fill', question: '65. 进程状态变化时，运行态和阻塞态都可能变为（  ）。', answer: '就绪态' },
-        { type: 'fill', question: '66. 在一个单处理器系统中，若有5个用户进程，且假设当前时刻为用户态，则处于就绪状态的用户进程最多有（  ）个。', answer: '4' },
-        // 原68-73
-        { type: 'fill', question: '67. 在操作系统中，（  ）是资源分配、调度和管理的基本单位。', answer: '进程' },
-        { type: 'fill', question: '68. 在计算机系统中，只有一个CPU，则多个进程将争夺CPU资源，如何把CPU有效地分配给进程，这是（  ）调度要解决的问题。', answer: '进程' },
-        { type: 'fill', question: '69. 当采用优先级进程调度算法时，可以有两种调度算法，一种是抢占式调度，一种是非抢占式调度。若要使当前运行的总是优先级最高的进程，应选择（  ）调度算法。', answer: '抢占式' },
-        { type: 'fill', question: '70. 一种最常用的进程调度算法是把处理器分配给具有最高优先权的进程。而优先权可以分为（  ）优先权和动态优先权。', answer: '静态' },
-        { type: 'fill', question: '71. 当采用时间片轮转调度算法时，若时间片过大，就会使其转化为（  ）调度算法。', answer: 'FCFS' },
-        { type: 'fill', question: '72. 在高响应比调度算法中，当各作业等待时间相同时，（  ）的作业将得到优先调度。', answer: '执行时间短' },
     ];
 
     let userSelections = new Array(questionBank.length).fill(null);
@@ -599,20 +581,15 @@ function handleSubmit() {
     }
 
     // 第三步：逐题评分
-    for (let i = 0; i < questionBank.length; i++) {
+      for (let i = 0; i < questionBank.length; i++) {
     const q = questionBank[i];
     const userAns = userSelections[i];
     let isCorrect = false;
 
     if (q.type === 'choice') {
-        // 选择题：直接比较数字
         isCorrect = (userAns === q.answer);
     } else if (q.type === 'tf') {
-        // 判断题：把布尔值转成 0/1 再比较
         isCorrect = (userAns === (q.answer ? 0 : 1));
-    } else {
-        // 填空题：字符串比较
-        isCorrect = (userAns.trim() === q.answer);
     }
 
     resultStatus[i] = isCorrect ? 'correct' : 'wrong';
