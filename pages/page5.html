@@ -225,7 +225,7 @@
     // ================================================================
     const questionBank = [
         // ===== 选择题 (原1-24, 53-72, 83-97) =====
-        { type: 'choice', question: '1. 操作系统中对文件进行管理的部分叫作（  ）。', options: ['数据库系统', '文件系统', '检索系统', '数据存储系统'], answer: 1 },
+       { type: 'choice', question: '1. 操作系统中对文件进行管理的部分叫作（  ）。', options: ['数据库系统', '文件系统', '检索系统', '数据存储系统'], answer: 1 },
         { type: 'choice', question: '2. 文件系统是指（  ）。', options: ['文件的集合', '文件的目录', '实现文件管理的一组软件', '文件、管理文件的软件及数据结构的总体'], answer: 3 },
         { type: 'choice', question: '3. 文件系统的主要目的是（  ）。', options: ['实现对文件的"按名存取"', '实现虚拟存储', '提高外存的读写速度', '用于存储系统文件'], answer: 0 },
         { type: 'choice', question: '4. 下列（  ）不是文件系统的功能。', options: ['文件系统实现对文件的"按名存取"', '负责实现数据的逻辑结构到物理结构的转换', '提高磁盘的读写速度', '提供对文件的存取方法和对文件的操作'], answer: 2 },
@@ -307,32 +307,6 @@
         { type: 'tf', question: '74. 索引文件既适合顺序存取，也适合随机存取。', answer: true },
         // 原105
         { type: 'tf', question: '75. 磁盘分配的基本单位是磁盘物理块。', answer: true },
-
-        // ===== 填空题 (原25-36, 71-73, 98-104) =====
-        { type: 'fill', question: '76. 文件的结构就是文件的组织形式，从实现观点出发，文件在外存上的存放组织形式称为文件的（  ）。', answer: '物理结构' },
-        { type: 'fill', question: '77. 文件系统为用户提供了（  ）功能，使得用户能透明地存储访问文件。', answer: '按名存取' },
-        { type: 'fill', question: '78. 逻辑文件可分为（  ）和记录式文件两类。', answer: '流式文件' },
-        { type: 'fill', question: '79. 由于文件的性质和用途不同，以及用户对文件使用的要求不同，文件的存取方法有多种，常用的有顺序存取和（  ）。', answer: '随机存取' },
-        { type: 'fill', question: '80. 每个索引文件至少有一个索引表，索引表中每个表项应当包括能够标识该记录关键字和该逻辑记录的（  ）。', answer: '物理地址' },
-        { type: 'fill', question: '81. 文件的符号名与物理地址之间的转换是通过（  ）来实现的。', answer: '文件目录' },
-        { type: 'fill', question: '82. 文件系统为每个文件建立了一个指示逻辑记录和物理块之间的对应关系的表，这个表文件是（  ）。', answer: '索引表' },
-        { type: 'fill', question: '83. 目录的作用在于实现（  ）。', answer: '按名存取' },
-        { type: 'fill', question: '84. 使用绝对路径名访问文件是从（  ）开始按目录结构访问某个文件。', answer: '根目录' },
-        { type: 'fill', question: '85. 在树形目录结构中，（  ）是从根目录出发到达某个文件的通路上所有各级子目录名和该文件名的顺序组合。', answer: '绝对路径名' },
-        { type: 'fill', question: '86. （  ）是指避免文件拥有者或其他用户因有意或无意的错误操作使文件受到破坏。', answer: '文件保护' },
-        { type: 'fill', question: '87. 文件共享是指（  ）。', answer: '多个用户共用同一个文件' },
-        // 原71-73
-        { type: 'fill', question: '88. 在某文件系统中，采用FAT方式实现文件。硬盘200MB，盘块大小为1KB，FAT表中每个表项占2个字节，则FAT表占用（  ）KB。', answer: '400' },
-        { type: 'fill', question: '89. 一个系统磁盘每块大小为4KB，每块地址用4B表示。采用二级索引文件系统管理的最大的文件是（  ）。', answer: '4GB' },
-        { type: 'fill', question: '90. 在文件系统中设置一个（  ）表，它是利用二进制的一位来表示磁盘中一个块的使用情况。', answer: '位示图' },
-        // 原98-104
-        { type: 'fill', question: '91. 为了确定磁盘上一个物理块所在的位置，必须给出三个参数，分别是（  ）、磁头号和扇区号。', answer: '柱面号' },
-        { type: 'fill', question: '92. 执行一次磁头的输入输出时，（  ）是磁头在移动臂带动下到指定柱面所花的时间。', answer: '寻道时间' },
-        { type: 'fill', question: '93. 为了减少移动臂所花时间，每个文件信息不是按盘面上的磁道顺序存放满一个盘面后，再放到另一个盘面上，而是按（  ）存放。', answer: '柱面' },
-        { type: 'fill', question: '94. 移臂调度的目的是尽可能地减少输入输出操作中的（  ）。', answer: '寻道时间' },
-        { type: 'fill', question: '95. 在移臂调度算法中，（  ）算法总是从移动臂当前位置开始沿着臂的移动方向去选择离当前移动臂最近的那个柱面的访问者，若沿臂的移动方向无请求访问时，就改变臂的移动方向再选择。', answer: '电梯调度' },
-        { type: 'fill', question: '96. 在移臂调度算法中，（  ）算法总是从等待访问者中选择时间最短的那个请求先执行。', answer: '最短寻道时间优先' },
-        { type: 'fill', question: '97. 在移臂调度算法中除了先来先服务算法外，其余三种算法都是根据访问者的（  ）来进行调度的。', answer: '柱面位置' },
     ];
 
     let userSelections = new Array(questionBank.length).fill(null);
@@ -508,15 +482,17 @@ function handleSubmit() {
     }
 
     // 第三步：逐题评分
-for (let i = 0; i < questionBank.length; i++) {
+    for (let i = 0; i < questionBank.length; i++) {
     const q = questionBank[i];
     const userAns = userSelections[i];
     let isCorrect = false;
-    if (q.type === 'choice' || q.type === 'tf') {
-        isCorrect = (userAns === (q.answer ? 0 : 1));   // ← 只改这一行
-    } else {
-        isCorrect = (userAns.trim() === q.answer);
+
+    if (q.type === 'choice') {
+        isCorrect = (userAns === q.answer);
+    } else if (q.type === 'tf') {
+        isCorrect = (userAns === (q.answer ? 0 : 1));
     }
+
     resultStatus[i] = isCorrect ? 'correct' : 'wrong';
 }
 
