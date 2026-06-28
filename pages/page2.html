@@ -566,7 +566,7 @@
    // ================================================================
 // 函数1：collectAllAnswers - 从页面收集所有答案
 // ================================================================
-function collectAllAnswers() {
+    function collectAllAnswers() {
     // 读取所有选中的 radio
     document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
         const name = r.name;
@@ -618,19 +618,10 @@ function handleSubmit() {
     // 第三步：逐题评分
 for (let i = 0; i < questionBank.length; i++) {
     const q = questionBank[i];
-    let userAns = userSelections[i];
+    const userAns = userSelections[i];
     let isCorrect = false;
-
     if (q.type === 'choice' || q.type === 'tf') {
-        // ✅ 统一转成数字再比较
-        const userNum = parseInt(userAns);
-        let correctNum;
-        if (typeof q.answer === 'boolean') {
-            correctNum = q.answer ? 0 : 1;   // true→0, false→1
-        } else {
-            correctNum = parseInt(q.answer);
-        }
-        isCorrect = (userNum === correctNum);
+        isCorrect = (userAns === (q.answer ? 0 : 1));   // ← 只改这一行
     } else {
         isCorrect = (userAns.trim() === q.answer);
     }
