@@ -3,552 +3,467 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>操作系统 刷题练习 005</title>
+    <title>操作系统 · 设备管理 · 背题模式</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            background: #f0f2f5;
-            font-family: -apple-system, "Microsoft YaHei", sans-serif;
-            padding: 25px 16px;
+            background: #f2f5f9;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+            padding: 1.8rem 1.2rem;
             display: flex;
             justify-content: center;
         }
         .container {
-            max-width: 820px;
+            max-width: 960px;
             width: 100%;
             background: white;
-            border-radius: 16px;
-            padding: 28px 30px 36px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            border-radius: 32px;
+            box-shadow: 0 16px 40px -12px rgba(0,0,0,0.18);
+            padding: 2rem 2rem 2.5rem;
         }
-        .header {
+        h1 {
             display: flex;
+            align-items: center;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 3px solid #4a6cf7;
-            padding-bottom: 14px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .header h1 { font-size: 22px; color: #1a1a2e; }
-        .header .info { font-size: 14px; color: #888; }
-        .header .info span { font-weight: 600; color: #4a6cf7; }
-        .question-card {
-            background: #f8f9fc;
-            border-radius: 12px;
-            padding: 18px 20px 20px;
-            margin-bottom: 18px;
-            border-left: 4px solid #4a6cf7;
-            transition: 0.2s;
-        }
-        .question-card.correct { border-left-color: #22b573; background: #f0faf5; }
-        .question-card.wrong { border-left-color: #e74c3c; background: #fdf0ef; }
-        .question-card .q-text {
-            font-weight: 500;
-            font-size: 15px;
-            color: #1a1a2e;
-            margin-bottom: 12px;
-            line-height: 1.7;
-        }
-        .question-card .q-text .q-type {
-            display: inline-block;
-            font-size: 12px;
-            background: #e8ecf4;
-            color: #555;
-            padding: 0 10px;
-            border-radius: 12px;
-            margin-right: 8px;
+            font-size: 1.9rem;
             font-weight: 600;
-        }
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            padding-left: 4px;
-        }
-        .options label {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-size: 14px;
-            color: #2d2d3f;
-            padding: 7px 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            background: white;
-            border: 1px solid #e2e6ee;
-            transition: 0.15s;
-        }
-        .options label:hover { background: #eef2ff; border-color: #b3c6ff; }
-        .options input[type="radio"] {
-            width: 16px;
-            height: 16px;
-            accent-color: #4a6cf7;
-            cursor: pointer;
-            flex-shrink: 0;
-        }
-        .options input[type="text"] {
-            flex: 1;
-            padding: 6px 12px;
-            border: 1px solid #d0d5e0;
-            border-radius: 6px;
-            font-size: 14px;
-            outline: none;
-            transition: 0.15s;
-            min-width: 100px;
-        }
-        .options input[type="text"]:focus {
-            border-color: #4a6cf7;
-            box-shadow: 0 0 0 3px rgba(74,108,247,0.15);
-        }
-        .tf-group {
-            display: flex;
-            gap: 16px;
-            padding-left: 4px;
-        }
-        .tf-group label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 14px;
-            padding: 6px 18px;
-            border-radius: 8px;
-            cursor: pointer;
-            background: white;
-            border: 1px solid #e2e6ee;
-            transition: 0.15s;
-        }
-        .tf-group label:hover { background: #eef2ff; border-color: #b3c6ff; }
-        .tf-group input[type="radio"] {
-            width: 16px;
-            height: 16px;
-            accent-color: #4a6cf7;
-            cursor: pointer;
-        }
-        .result-hint {
-            margin-top: 12px;
-            padding: 10px 14px;
-            border-radius: 8px;
-            font-size: 14px;
-            font-weight: 500;
-            display: none;
-        }
-        .result-hint.show { display: block; }
-        .result-hint.correct { background: #d4edda; color: #0e6b3e; }
-        .result-hint.wrong { background: #f8d7da; color: #a11f2e; }
-        .result-hint .answer-text { font-weight: 700; color: #c0392b; }
-        .btn-group {
-            margin-top: 16px;
-            display: flex;
-            gap: 12px;
+            color: #0b1e33;
+            border-bottom: 3px solid #e6ecf3;
+            padding-bottom: 0.9rem;
+            margin-bottom: 1.5rem;
             flex-wrap: wrap;
+        }
+        h1 small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            color: #406180;
+            background: #eef2f7;
+            padding: 0.2rem 1.2rem;
+            border-radius: 40px;
+        }
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1rem;
+            align-items: center;
+            margin-bottom: 1.8rem;
+            background: #f8faff;
+            padding: 0.7rem 1.5rem;
+            border-radius: 60px;
+            border: 1px solid #dce3ec;
+        }
+        .toolbar .info {
+            font-weight: 500;
+            color: #1f3d60;
+            margin-right: auto;
+        }
+        .toolbar .info span {
+            font-weight: 700;
+            color: #00337a;
         }
         .btn {
-            padding: 11px 32px;
             border: none;
-            border-radius: 30px;
-            font-size: 15px;
+            padding: 0.4rem 1.4rem;
+            border-radius: 40px;
             font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: 0.2s;
-            background: #e8ecf4;
-            color: #2d2d3f;
+            transition: 0.15s;
+            background: #e1e9f2;
+            color: #1d3f62;
         }
-        .btn-primary { background: #4a6cf7; color: white; box-shadow: 0 4px 12px rgba(74,108,247,0.3); }
-        .btn-primary:hover { background: #3a5cd9; transform: translateY(-2px); }
-        .btn-success { background: #22b573; color: white; }
-        .btn-success:hover { background: #1a9a62; }
-        .btn-danger { background: #e74c3c; color: white; }
-        .btn-danger:hover { background: #c0392b; }
-        .btn-warning { background: #f39c12; color: white; }
-        .btn-warning:hover { background: #d68910; }
-        .summary {
-            margin-top: 24px;
-            padding: 16px 22px;
-            background: #f0f2f8;
-            border-radius: 12px;
+        .btn-primary {
+            background: #1a4d7a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0f3b60;
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid #b8c9dd;
+        }
+        .btn-outline:hover {
+            background: #e8eef6;
+        }
+        .btn-success {
+            background: #1f7b4a;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #14633a;
+        }
+        .question-grid {
             display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+        .card {
+            background: #f9fbfd;
+            border-radius: 18px;
+            padding: 1.2rem 1.8rem 1.2rem;
+            border: 1px solid #e6ecf3;
+            transition: 0.1s;
+            cursor: pointer;
+        }
+        .card:hover {
+            border-color: #bcccdb;
+            background: #f5f8fc;
+        }
+        .card .q-head {
+            display: flex;
+            gap: 0.8rem;
+            align-items: baseline;
+            flex-wrap: wrap;
+            margin-bottom: 0.3rem;
+        }
+        .card .q-number {
+            font-weight: 700;
+            color: #1a3a5e;
+            background: #e2eaf3;
+            padding: 0.05rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+        }
+        .card .q-type {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: #3f5f80;
+            background: #d7e0ea;
+            padding: 0.05rem 0.9rem;
+            border-radius: 40px;
+            text-transform: uppercase;
+        }
+        .card .q-text {
+            font-size: 1.02rem;
+            line-height: 1.5;
+            color: #0f2942;
+            font-weight: 500;
+            margin: 0.2rem 0 0.5rem 0;
+        }
+        .card .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem 1.2rem;
+            margin: 0.3rem 0 0.2rem 0;
+            font-size: 0.95rem;
+        }
+        .card .options .opt {
+            background: white;
+            padding: 0.1rem 1rem 0.1rem 0.6rem;
+            border-radius: 30px;
+            border: 1px solid #d8e0e9;
+            color: #1f3f5e;
+        }
+        .card .options .opt.correct-opt {
+            background: #e2f3e8;
+            border-color: #2b8c5e;
+            font-weight: 600;
+        }
+        .card .tf-answer {
+            display: inline-block;
+            margin-top: 0.3rem;
+            padding: 0.1rem 1.2rem;
+            border-radius: 30px;
+            background: #e2f3e8;
+            border: 1px solid #2b8c5e;
+            font-weight: 600;
+            color: #0d5a33;
+        }
+        .card .tf-answer.false-ans {
+            background: #fde8e8;
+            border-color: #b13b3b;
+            color: #a13030;
+        }
+        .card .answer-hint {
+            margin-top: 0.7rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed #d4dce6;
+            font-size: 0.9rem;
+            color: #2f4f72;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.6rem 1.2rem;
+        }
+        .card .answer-hint .label {
+            font-weight: 600;
+            color: #1f3f62;
+        }
+        .card .answer-hint .ans-value {
+            font-weight: 700;
+            color: #00337a;
+        }
+        .card .answer-hint .ans-value.correct {
+            color: #0d6a3a;
+        }
+        .card .answer-hint .ans-value.wrong {
+            color: #b13b3b;
+        }
+        .card .answer-hint .tag {
+            background: #e3eaf2;
+            padding: 0.05rem 1rem;
+            border-radius: 30px;
+        }
+        .card.reveal {
+            border-left: 5px solid #1f7b4a;
+            background: #f5fcf8;
+        }
+        .stats-bar {
+            margin-top: 1.8rem;
+            padding-top: 1.2rem;
+            border-top: 2px solid #e6ecf3;
+            display: flex;
+            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-size: 15px;
+            gap: 0.8rem;
         }
-        .summary .score { font-weight: 700; font-size: 20px; color: #1a1a2e; }
-        .summary .score span { color: #4a6cf7; }
-        .footer {
+        .stats-bar .progress {
+            font-weight: 500;
+            color: #1f3d60;
+        }
+        .stats-bar .progress span {
+            font-weight: 700;
+            color: #00337a;
+        }
+        .footer-note {
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            color: #5f748b;
             text-align: center;
-            margin-top: 20px;
-            font-size: 13px;
-            color: #bbb;
-            border-top: 1px solid #eee;
-            padding-top: 16px;
         }
-        @media (max-width: 540px) {
-            .container { padding: 16px 12px; }
-            .question-card { padding: 14px 12px; }
-            .btn { padding: 9px 18px; font-size: 13px; }
-            .header h1 { font-size: 18px; }
+        @media (max-width: 600px) {
+            .container { padding: 1rem; }
+            .toolbar { flex-direction: column; align-items: stretch; }
+            .toolbar .info { margin-bottom: 0.2rem; }
+            .card { padding: 1rem 1.2rem; }
+        }
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
+<div class="container" id="app">
+    <h1>
+        📘 设备管理 · 背题
+        <small>点击卡片显示答案</small>
+    </h1>
 
-<div class="container">
-    <div class="header">
-        <div class="header-left">
-            <h1>📚 操作系统 006</h1>
-            <a href="/myweb/" class="home-link">🏠 返回主页</a>
-        </div>
-        <div class="info">共 <span id="totalCount">0</span> 题</div>
+    <div class="toolbar">
+        <div class="info">📝 共 <span id="totalCount">0</span> 题 · 已看 <span id="revealedCount">0</span></div>
+        <button class="btn btn-primary" id="revealAllBtn">👁 显示全部答案</button>
+        <button class="btn btn-outline" id="hideAllBtn">🙈 隐藏全部答案</button>
+        <button class="btn btn-success" id="resetBtn">⟳ 重置进度</button>
     </div>
 
-    <div id="questionList"></div>
+    <div id="questionContainer" class="question-grid"></div>
 
-    <div class="btn-group">
-        <button class="btn btn-primary" id="submitBtn">✅ 提交并查看错题</button>
-        <button class="btn btn-success" id="resetBtn">🔄 重新作答</button>
-        <button class="btn btn-warning" id="clearBtn">🗑️ 清空选择</button>
+    <div class="stats-bar">
+        <div class="progress">📊 进度：<span id="progressPercent">0%</span></div>
+        <div style="font-size:0.9rem; color:#406180;">点击任意卡片可切换答案显隐</div>
     </div>
-
-    <div class="summary">
-        <span>📊 结果</span>
-        <span class="score">正确 <span id="correctNum">0</span> / 共 <span id="totalNum">0</span></span>
-    </div>
-
-    <div class="footer">选完答案后点「提交并查看错题」→ 错题自动标红并显示正确答案</div>
+    <div class="footer-note">* 背题模式：选择题显示正确选项（绿色高亮），判断题显示正确结论。</div>
 </div>
 
 <script>
-    // ================================================================
-    // 第五套题：文件管理 + 磁盘调度（无官方答案，由专业知识补充）
-    // 选择题 + 判断题 + 填空题（去掉简答题）
-    // 题号从1开始连续编号
-    // ================================================================
-    const questionBank = [
-        // ===== 选择题 (原1-24, 53-72, 83-97) =====
-        { type: 'choice', question: '1. 按（ ）分类可将设备分为块设备和字符设备。', options: ['传输速率', '使用特性', '共享属性', '信息交换单位'], answer: 3 },
-        { type: 'choice', question: '2. 以下（ ）属于独占设备。', options: ['硬盘', '磁鼓', '打印机', '光盘'], answer: 2 },
-        { type: 'choice', question: '3. 以下属于共享设备的是（ ）。', options: ['打印机', '磁盘', '用户终端', '鼠标器'], answer: 1 },
-        { type: 'choice', question: '4. 计算机输入/输出操作指的（ ）之间的信息传送。', options: ['I/O设备与I/O设备', '主机（含CPU、内存）与I/O设备', 'CPU与主存', '键盘与显示器'], answer: 1 },
-        { type: 'choice', question: '5. 以下关于设备控制器的叙述中错误的是（ ）。', options: ['设备控制器是一个可编址的设备', '设备控制器的每一个设备地址对应同类的多个设备', '当一个设备控制器仅控制一个设备时，它只有一个唯一的设备地址', '当设备控制器可连接多个设备时，它应含有多个设备地址'], answer: 1 },
-        { type: 'choice', question: '6. 以下不使用中断机构的I/O控制方式是（ ）。', options: ['中断控制方式', 'DMA控制方式', '程序I/O方式', '通道控制方式'], answer: 2 },
-        { type: 'choice', question: '7. 在中断处理中，属于I/O中断的有（ ）。', options: ['设备出错', '数据传输结束', 'I和II', '都不是'], answer: 2 },
-        { type: 'choice', question: '8. 如果I/O设备与存储设备进行数据交换不经过CPU来完成，这种数据交换方式是（ ）。', options: ['程序查询', '中断方式', 'DMA方式', '无条件存取方式'], answer: 2 },
-        { type: 'choice', question: '9. DMA控制方式中的数据传输是以（ ）为单位进行的。', options: ['字节', '字', '数据块', '位'], answer: 2 },
-        { type: 'choice', question: '10. DMA控制方式是在（ ）之间建立一条直接数据通路。', options: ['I/O设备和主存', '两个I/O设备', 'I/O设备和CPU', 'CPU和主存'], answer: 0 },
-        { type: 'choice', question: '11. DMA控制方式的特点是（ ）。', options: ['设备和CPU并行执行', 'I/O批量数据的交换会大量浪费CPU时间', '控制软件易于编写', '简化设备设计'], answer: 0 },
-        { type: 'choice', question: '12. 在操作系统中，（ ）指的是一种实现I/O控制的硬件机制。', options: ['通道技术', '缓冲池', 'SPOOLing技术', '内存覆盖技术'], answer: 0 },
-        { type: 'choice', question: '13. 通道又称I/O处理器，它用于实现（ ）之间的信息传输。', options: ['内存与I/O设备', 'CPU与I/O设备', '内存与外存', 'CPU与外存'], answer: 0 },
-        { type: 'choice', question: '14. 通道程序是（ ）。', options: ['由一系列机器指令组成', '由一系列通道指令组成', '可以由高级语言编写', '就是通道控制器'], answer: 1 },
-        { type: 'choice', question: '15. 关于通道、设备控制器和设备之间的关系，以下叙述中正确的是（ ）。', options: ['设备控制器和通道可以分别控制设备', '设备控制器、通道和设备可以并行工作', '通道控制设备控制器、设备控制器控制设备工作', '都不对'], answer: 2 },
-        { type: 'choice', question: '16. 以下叙述中不正确的是（ ）。', options: ['通道是处理输入输出的软件', '所有设备的启动工作都由系统统一来做', '来自通道的I/O中断事件由设备管理负责处理', '编制好的通道程序是存放在主存中的'], answer: 0 },
-        { type: 'choice', question: '17. 在以下I/O控制方式中，需要CPU干预最少的是（ ）。', options: ['程序I/O方式', '中断控制方式', 'DMA控制方式', '通道控制方式'], answer: 3 },
-        { type: 'choice', question: '18. 某字节多路通道共有6个子通道，若通道最大传送速率为1500B/s，求每个子通道的最大传输速率是（ ）。', options: ['1500B/s', '250B/s', '300B/s', '500B/s'], answer: 1 },
-        { type: 'choice', question: '19. 基本的I/O设备处理进程一般处于（ ）状态。', options: ['就绪', '执行', '阻塞', '死锁'], answer: 2 },
-        { type: 'choice', question: '20. 将系统调用参数翻译成设备操作命令的工作由（ ）完成的。', options: ['用户层I/O软件', '设备独立性软件', '中断处理', '设备驱动程序'], answer: 1 },
-        { type: 'choice', question: '21. 与设备相关的中断处理过程是由（ ）完成的。', options: ['用户层I/O软件', '设备无关的操作系统软件', '硬件', '设备驱动程序'], answer: 3 },
-        { type: 'choice', question: '22. 设备的打开、关闭、读、写等操作是由（ ）完成的。', options: ['用户程序', '编译程序', '设备分配程序', '设备驱动程序'], answer: 3 },
-        { type: 'choice', question: '23. 设备管理程序对设备的管理是借助一些数据结构来进行的，以下（ ）不属于设备管理数据结构。', options: ['PCB', 'DCT', 'COCT', 'CHCT'], answer: 0 },
-        { type: 'choice', question: '24. 操作系统设置（ ），用来记录计算机系统所配置的独占设备类型、台数和分配情况。', options: ['设备控制表', '控制器控制表', '通道控制表', '系统设备表'], answer: 3 },
-        { type: 'choice', question: '25. 下列（ ）不是设备的分配方式。', options: ['独享分配', '共享分配', '虚拟分配', '分区分配'], answer: 3 },
-        { type: 'choice', question: '26. （ ）算法是设备分配常用的一种算法。', options: ['短作业优先', '最佳适应', '先来先服务', '首次适应'], answer: 2 },
-        { type: 'choice', question: '27. 通过硬件和软件的功能扩充，把原来独占的设备改造成能为若干用户共享的设备，这种设备称为（ ）。', options: ['存储设备', '系统设备', '用户设备', '虚拟设备'], answer: 3 },
-        { type: 'choice', question: '28. 设备的独立性是指（ ）。', options: ['设备独立于计算机系统', '系统对设备的管理是独立的', '用户编程时使用的设备与实际使用的设备无关', '每一台设备都有一个唯一的编号'], answer: 2 },
-        { type: 'choice', question: '29. 应用程序与物理设备无关的特性是（ ）。', options: ['虚拟设备', '设备独立性', '设备安全性', '设备独享'], answer: 1 },
-        { type: 'choice', question: '30. 在操作系统中，用户程序申请使用I/O设备时，通常采用（ ）。', options: ['物理设备名', '逻辑设备名', '虚拟设备名', '独占设备名'], answer: 1 },
-        { type: 'choice', question: '31. 引入高速缓冲的主要目的是（ ）。', options: ['提高CPU的利用率', '提高I/O设备的利用率', '改善CPU与I/O设备速度不匹配的问题', '节省内存'], answer: 2 },
-        { type: 'choice', question: '32. 磁盘高速缓冲设在（ ）中，其主要目的是提高磁盘I/O的速度。', options: ['磁盘控制器', '磁盘', '内存', 'Cache'], answer: 2 },
-        { type: 'choice', question: '33. CPU输出数据的速度远高于打印机的打印速度，为解决这一问题，可采用的技术是（ ）。', options: ['并行技术', '通道技术', '缓冲技术', '虚存技术'], answer: 2 },
-        { type: 'choice', question: '34. 缓冲技术中的缓冲池在（ ）中。', options: ['内存', '外存', 'ROM', '寄存器'], answer: 0 },
-        { type: 'choice', question: '35. 如果I/O所花费的时间比CPU处理时间短得多，则缓冲区（ ）。', options: ['最有效', '几乎无效', '均衡', '以上都不是'], answer: 1 },
-        { type: 'choice', question: '36. 为了使多个进程能有效地同时处理输入和输出，最好使用（ ）结构的缓冲技术。', options: ['缓冲池', '循环缓冲', '单缓冲', '双缓冲'], answer: 0 },
-        { type: 'choice', question: '37. 在以下问题中，（ ）不是设备分配时应考虑的问题。', options: ['及时性', '设备的固有属性', '与设备无关性', '安全性'], answer: 0 },
-        { type: 'choice', question: '38. 在采用SPOOLing技术的系统中，用户的打印结果首先被送到（ ）。', options: ['磁盘固定区域', '内存固定区域', '终端', '打印机'], answer: 0 },
-        { type: 'choice', question: '39. （ ）是操作系统中采用的以空间换取时间的技术。', options: ['SPOOLing技术', '虚拟存储技术', '覆盖与交换技术', '通道技术'], answer: 0 },
-        { type: 'choice', question: '40. 操作系统中的SPOOLing技术，实质是将（ ）转化为共享设备的技术。', options: ['虚拟设备', '独占设备', '脱机设备', '块设备'], answer: 1 },
-        { type: 'choice', question: '41. SPOOLing系统为用户提供了虚拟的（ ）。', options: ['共享设备', '独占设备', '主存储器', '处理器'], answer: 1 },
-        { type: 'choice', question: '42. SPOOLing技术提高了（ ）的利用率。', options: ['独占设备', '共享设备', '文件', '主存'], answer: 0 },
-        { type: 'choice', question: '43. 采用假脱机技术，将磁盘的一部分作为公共缓冲区以代替打印机，用户对打印机的操作实际上是对磁盘的存储操作，这种改造后的设备是（ ）。', options: ['独占设备', '共享设备', '虚拟设备', '一般物理设备'], answer: 2 },
-        { type: 'choice', question: '44. 虚拟设备是靠（ ）技术实现的。', options: ['通道', '缓冲', 'SPOOLing', '设备控制器'], answer: 2 },
-        { type: 'choice', question: '45. 虚拟设备是指（ ）。', options: ['允许用户使用比系统中具有的物理设备更多的设备', '允许用户以标准化方式来使用物理设备', '把一个物理设备变换成多个对应的逻辑设备', '允许用户程序不必全部装入主存便可使用的设备'], answer: 2 },
-        { type: 'choice', question: '46. 假脱机输入输出利用（ ）作为缓冲区来实现虚拟设备。', options: ['打印机', '磁带', '磁盘', '内存'], answer: 2 },
+    (function() {
+        // --------------------------------------------------------------
+        // 题库：直接从文档提取（选择题 + 判断题，无填空）
+        // 所有答案均来自原文档参考答案
+        // --------------------------------------------------------------
+        const questionBank = [
+            { type: 'choice', question: '1. 按（ ）分类可将设备分为块设备和字符设备。', options: ['传输速率', '使用特性', '共享属性', '信息交换单位'], answer: 3 },
+            { type: 'choice', question: '2. 以下（ ）属于独占设备。', options: ['硬盘', '磁鼓', '打印机', '光盘'], answer: 2 },
+            { type: 'choice', question: '3. 以下属于共享设备的是（ ）。', options: ['打印机', '磁盘', '用户终端', '鼠标器'], answer: 1 },
+            { type: 'choice', question: '4. 计算机输入/输出操作指的（ ）之间的信息传送。', options: ['I/O设备与I/O设备', '主机（含CPU、内存）与I/O设备', 'CPU与主存', '键盘与显示器'], answer: 1 },
+            { type: 'choice', question: '5. 以下关于设备控制器的叙述中错误的是（ ）。', options: ['设备控制器是一个可编址的设备', '设备控制器的每一个设备地址对应同类的多个设备', '当一个设备控制器仅控制一个设备时，它只有一个唯一的设备地址', '当设备控制器可连接多个设备时，它应含有多个设备地址'], answer: 1 },
+            { type: 'choice', question: '6. 以下不使用中断机构的I/O控制方式是（ ）。', options: ['中断控制方式', 'DMA控制方式', '程序I/O方式', '通道控制方式'], answer: 2 },
+            { type: 'choice', question: '7. 在中断处理中，属于I/O中断的有（ ）。', options: ['设备出错', '数据传输结束', 'I和II', '都不是'], answer: 2 },
+            { type: 'choice', question: '8. 如果I/O设备与存储设备进行数据交换不经过CPU来完成，这种数据交换方式是（ ）。', options: ['程序查询', '中断方式', 'DMA方式', '无条件存取方式'], answer: 2 },
+            { type: 'choice', question: '9. DMA控制方式中的数据传输是以（ ）为单位进行的。', options: ['字节', '字', '数据块', '位'], answer: 2 },
+            { type: 'choice', question: '10. DMA控制方式是在（ ）之间建立一条直接数据通路。', options: ['I/O设备和主存', '两个I/O设备', 'I/O设备和CPU', 'CPU和主存'], answer: 0 },
+            { type: 'choice', question: '11. DMA控制方式的特点是（ ）。', options: ['设备和CPU并行执行', 'I/O批量数据的交换会大量浪费CPU时间', '控制软件易于编写', '简化设备设计'], answer: 0 },
+            { type: 'choice', question: '12. 在操作系统中，（ ）指的是一种实现I/O控制的硬件机制。', options: ['通道技术', '缓冲池', 'SPOOLing技术', '内存覆盖技术'], answer: 0 },
+            { type: 'choice', question: '13. 通道又称I/O处理器，它用于实现（ ）之间的信息传输。', options: ['内存与I/O设备', 'CPU与I/O设备', '内存与外存', 'CPU与外存'], answer: 0 },
+            { type: 'choice', question: '14. 通道程序是（ ）。', options: ['由一系列机器指令组成', '由一系列通道指令组成', '可以由高级语言编写', '就是通道控制器'], answer: 1 },
+            { type: 'choice', question: '15. 关于通道、设备控制器和设备之间的关系，以下叙述中正确的是（ ）。', options: ['设备控制器和通道可以分别控制设备', '设备控制器、通道和设备可以并行工作', '通道控制设备控制器、设备控制器控制设备工作', '都不对'], answer: 2 },
+            { type: 'choice', question: '16. 以下叙述中不正确的是（ ）。', options: ['通道是处理输入输出的软件', '所有设备的启动工作都由系统统一来做', '来自通道的I/O中断事件由设备管理负责处理', '编制好的通道程序是存放在主存中的'], answer: 0 },
+            { type: 'choice', question: '17. 在以下I/O控制方式中，需要CPU干预最少的是（ ）。', options: ['程序I/O方式', '中断控制方式', 'DMA控制方式', '通道控制方式'], answer: 3 },
+            { type: 'choice', question: '18. 某字节多路通道共有6个子通道，若通道最大传送速率为1500B/s，求每个子通道的最大传输速率是（ ）。', options: ['1500B/s', '250B/s', '300B/s', '500B/s'], answer: 1 },
+            { type: 'choice', question: '19. 基本的I/O设备处理进程一般处于（ ）状态。', options: ['就绪', '执行', '阻塞', '死锁'], answer: 2 },
+            { type: 'choice', question: '20. 将系统调用参数翻译成设备操作命令的工作由（ ）完成的。', options: ['用户层I/O软件', '设备独立性软件', '中断处理', '设备驱动程序'], answer: 1 },
+            { type: 'choice', question: '21. 与设备相关的中断处理过程是由（ ）完成的。', options: ['用户层I/O软件', '设备无关的操作系统软件', '硬件', '设备驱动程序'], answer: 3 },
+            { type: 'choice', question: '22. 设备的打开、关闭、读、写等操作是由（ ）完成的。', options: ['用户程序', '编译程序', '设备分配程序', '设备驱动程序'], answer: 3 },
+            { type: 'choice', question: '23. 设备管理程序对设备的管理是借助一些数据结构来进行的，以下（ ）不属于设备管理数据结构。', options: ['PCB', 'DCT', 'COCT', 'CHCT'], answer: 0 },
+            { type: 'choice', question: '24. 操作系统设置（ ），用来记录计算机系统所配置的独占设备类型、台数和分配情况。', options: ['设备控制表', '控制器控制表', '通道控制表', '系统设备表'], answer: 3 },
+            { type: 'choice', question: '25. 下列（ ）不是设备的分配方式。', options: ['独享分配', '共享分配', '虚拟分配', '分区分配'], answer: 3 },
+            { type: 'choice', question: '26. （ ）算法是设备分配常用的一种算法。', options: ['短作业优先', '最佳适应', '先来先服务', '首次适应'], answer: 2 },
+            { type: 'choice', question: '27. 通过硬件和软件的功能扩充，把原来独占的设备改造成能为若干用户共享的设备，这种设备称为（ ）。', options: ['存储设备', '系统设备', '用户设备', '虚拟设备'], answer: 3 },
+            { type: 'choice', question: '28. 设备的独立性是指（ ）。', options: ['设备独立于计算机系统', '系统对设备的管理是独立的', '用户编程时使用的设备与实际使用的设备无关', '每一台设备都有一个唯一的编号'], answer: 2 },
+            { type: 'choice', question: '29. 应用程序与物理设备无关的特性是（ ）。', options: ['虚拟设备', '设备独立性', '设备安全性', '设备独享'], answer: 1 },
+            { type: 'choice', question: '30. 在操作系统中，用户程序申请使用I/O设备时，通常采用（ ）。', options: ['物理设备名', '逻辑设备名', '虚拟设备名', '独占设备名'], answer: 1 },
+            { type: 'choice', question: '31. 引入高速缓冲的主要目的是（ ）。', options: ['提高CPU的利用率', '提高I/O设备的利用率', '改善CPU与I/O设备速度不匹配的问题', '节省内存'], answer: 2 },
+            { type: 'choice', question: '32. 磁盘高速缓冲设在（ ）中，其主要目的是提高磁盘I/O的速度。', options: ['磁盘控制器', '磁盘', '内存', 'Cache'], answer: 2 },
+            { type: 'choice', question: '33. CPU输出数据的速度远高于打印机的打印速度，为解决这一问题，可采用的技术是（ ）。', options: ['并行技术', '通道技术', '缓冲技术', '虚存技术'], answer: 2 },
+            { type: 'choice', question: '34. 缓冲技术中的缓冲池在（ ）中。', options: ['内存', '外存', 'ROM', '寄存器'], answer: 0 },
+            { type: 'choice', question: '35. 如果I/O所花费的时间比CPU处理时间短得多，则缓冲区（ ）。', options: ['最有效', '几乎无效', '均衡', '以上都不是'], answer: 1 },
+            { type: 'choice', question: '36. 为了使多个进程能有效地同时处理输入和输出，最好使用（ ）结构的缓冲技术。', options: ['缓冲池', '循环缓冲', '单缓冲', '双缓冲'], answer: 0 },
+            { type: 'choice', question: '37. 在以下问题中，（ ）不是设备分配时应考虑的问题。', options: ['及时性', '设备的固有属性', '与设备无关性', '安全性'], answer: 0 },
+            { type: 'choice', question: '38. 在采用SPOOLing技术的系统中，用户的打印结果首先被送到（ ）。', options: ['磁盘固定区域', '内存固定区域', '终端', '打印机'], answer: 0 },
+            { type: 'choice', question: '39. （ ）是操作系统中采用的以空间换取时间的技术。', options: ['SPOOLing技术', '虚拟存储技术', '覆盖与交换技术', '通道技术'], answer: 0 },
+            { type: 'choice', question: '40. 操作系统中的SPOOLing技术，实质是将（ ）转化为共享设备的技术。', options: ['虚拟设备', '独占设备', '脱机设备', '块设备'], answer: 1 },
+            { type: 'choice', question: '41. SPOOLing系统为用户提供了虚拟的（ ）。', options: ['共享设备', '独占设备', '主存储器', '处理器'], answer: 1 },
+            { type: 'choice', question: '42. SPOOLing技术提高了（ ）的利用率。', options: ['独占设备', '共享设备', '文件', '主存'], answer: 0 },
+            { type: 'choice', question: '43. 采用假脱机技术，将磁盘的一部分作为公共缓冲区以代替打印机，用户对打印机的操作实际上是对磁盘的存储操作，这种改造后的设备是（ ）。', options: ['独占设备', '共享设备', '虚拟设备', '一般物理设备'], answer: 2 },
+            { type: 'choice', question: '44. 虚拟设备是靠（ ）技术实现的。', options: ['通道', '缓冲', 'SPOOLing', '设备控制器'], answer: 2 },
+            { type: 'choice', question: '45. 虚拟设备是指（ ）。', options: ['允许用户使用比系统中具有的物理设备更多的设备', '允许用户以标准化方式来使用物理设备', '把一个物理设备变换成多个对应的逻辑设备', '允许用户程序不必全部装入主存便可使用的设备'], answer: 2 },
+            { type: 'choice', question: '46. 假脱机输入输出利用（ ）作为缓冲区来实现虚拟设备。', options: ['打印机', '磁带', '磁盘', '内存'], answer: 2 },
+            // 判断题
+            { type: 'tf', question: '47. 对于存储型设备，I/O操作的信息是以字节为单位传输的。', answer: false },
+            { type: 'tf', question: '48. 设备控制器是CPU与I/O设备之间的接口，它接收从CPU发来的命令，并去控制I/O设备工作。', answer: true },
+            { type: 'tf', question: '49. 一个设备控制器只能控制一个I/O设备。', answer: false },
+            { type: 'tf', question: '50. 独占设备始终只允许一个用户进程使用。', answer: true },
+            { type: 'tf', question: '51. 共享设备在任何时刻允许多个进程使用。', answer: false },
+            { type: 'tf', question: '52. 虚拟设备是指实际上不存在的设备。', answer: false },
+            { type: 'tf', question: '53. I/O控制方式不断发展的推动因素之一，是提高CPU对I/O设备的干预。', answer: false },
+            { type: 'tf', question: '54. 在程序I/O方式中，CPU的利用率比中断驱动I/O方式中的CPU利用率高。', answer: false },
+            { type: 'tf', question: '55. 在中断控制方式下，I/O操作的数据传输必须经过CPU。', answer: true },
+            { type: 'tf', question: '56. 在中断控制方式下，不需要CPU干预便可实现I/O操作。', answer: false },
+            { type: 'tf', question: '57. DMA控制方式只能应用于块设备的I/O操作。', answer: false },
+            { type: 'tf', question: '58. DMA控制方式下可以直接在内存和I/O设备间传输数据。', answer: true },
+            { type: 'tf', question: '59. 在通道控制方式中，数据传输的基本单位由一个数据块变成一组数据块。', answer: true },
+            { type: 'tf', question: '60. 通道是一个I/O处理器，可以执行任何指令。', answer: false },
+            { type: 'tf', question: '61. 设备驱动程序与I/O设备的特性无关。', answer: false },
+            { type: 'tf', question: '62. 操作系统提供的用于I/O操作的库函数属于用户层软件。', answer: true },
+            { type: 'tf', question: '63. 设备独立性软件执行所有设备的公用操作。', answer: true },
+            { type: 'tf', question: '64. 逻辑设备到物理设备的映射是在用户层软件中完成的。', answer: false },
+            { type: 'tf', question: '65. 设备驱动程序发出I/O命令后，在设备控制器控制下进行I/O操作，执行设备驱动程序的进程阻塞起来，直到I/O中断时才被唤醒。', answer: true },
+            { type: 'tf', question: '66. 设备独立性是指设备驱动程序独立于具体使用的物理设备。', answer: false },
+            { type: 'tf', question: '67. SPOOLing是脱机I/O系统。', answer: false },
+            { type: 'tf', question: '68. 磁盘高速缓冲区是设在磁盘上的一块磁盘空间。', answer: false },
+            { type: 'tf', question: '69. 系统为所有设备配置一张设备控制表，用于记录设备的特性以及与I/O控制器连接的情况。', answer: true },
+            { type: 'tf', question: '70. 设备分配算法主要有先请求先服务和速度高者优先两种。', answer: false }
+        ];
 
-        // ===== 判断题 =====
-        { type: 'tf', question: '47. 对于存储型设备，I/O操作的信息是以字节为单位传输的。', answer: false },
-        { type: 'tf', question: '48. 设备控制器是CPU与I/O设备之间的接口，它接收从CPU发来的命令，并去控制I/O设备工作。', answer: true },
-        { type: 'tf', question: '49. 一个设备控制器只能控制一个I/O设备。', answer: false },
-        { type: 'tf', question: '50. 独占设备始终只允许一个用户进程使用。', answer: true },
-        { type: 'tf', question: '51. 共享设备在任何时刻允许多个进程使用。', answer: false },
-        { type: 'tf', question: '52. 虚拟设备是指实际上不存在的设备。', answer: false },
-        { type: 'tf', question: '53. I/O控制方式不断发展的推动因素之一，是提高CPU对I/O设备的干预。', answer: false },
-        { type: 'tf', question: '54. 在程序I/O方式中，CPU的利用率比中断驱动I/O方式中的CPU利用率高。', answer: false },
-        { type: 'tf', question: '55. 在中断控制方式下，I/O操作的数据传输必须经过CPU。', answer: true },
-        { type: 'tf', question: '56. 在中断控制方式下，不需要CPU干预便可实现I/O操作。', answer: false },
-        { type: 'tf', question: '57. DMA控制方式只能应用于块设备的I/O操作。', answer: false },
-        { type: 'tf', question: '58. DMA控制方式下可以直接在内存和I/O设备间传输数据。', answer: true },
-        { type: 'tf', question: '59. 在通道控制方式中，数据传输的基本单位由一个数据块变成一组数据块。', answer: true },
-        { type: 'tf', question: '60. 通道是一个I/O处理器，可以执行任何指令。', answer: false },
-        { type: 'tf', question: '61. 设备驱动程序与I/O设备的特性无关。', answer: false },
-        { type: 'tf', question: '62. 操作系统提供的用于I/O操作的库函数属于用户层软件。', answer: true },
-        { type: 'tf', question: '63. 设备独立性软件执行所有设备的公用操作。', answer: true },
-        { type: 'tf', question: '64. 逻辑设备到物理设备的映射是在用户层软件中完成的。', answer: false },
-        { type: 'tf', question: '65. 设备驱动程序发出I/O命令后，在设备控制器控制下进行I/O操作，执行设备驱动程序的进程阻塞起来，直到I/O中断时才被唤醒。', answer: true },
-        { type: 'tf', question: '66. 设备独立性是指设备驱动程序独立于具体使用的物理设备。', answer: false },
-        { type: 'tf', question: '67. SPOOLing是脱机I/O系统。', answer: false },
-        { type: 'tf', question: '68. 磁盘高速缓冲区是设在磁盘上的一块磁盘空间。', answer: false },
-        { type: 'tf', question: '69. 系统为所有设备配置一张设备控制表，用于记录设备的特性以及与I/O控制器连接的情况。', answer: true },
-        { type: 'tf', question: '70. 设备分配算法主要有先请求先服务和速度高者优先两种。', answer: false },
-    ];
+        // 状态：每道题是否显示答案
+        let revealState = new Array(questionBank.length).fill(false);
 
-    let userSelections = new Array(questionBank.length).fill(null);
-    let resultStatus = new Array(questionBank.length).fill(null);
+        const container = document.getElementById('questionContainer');
+        const totalSpan = document.getElementById('totalCount');
+        const revealedSpan = document.getElementById('revealedCount');
+        const progressPercent = document.getElementById('progressPercent');
 
-    const questionListEl = document.getElementById('questionList');
-    const submitBtn = document.getElementById('submitBtn');
-    const resetBtn = document.getElementById('resetBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const correctNumEl = document.getElementById('correctNum');
-    const totalNumEl = document.getElementById('totalNum');
-    const totalCountSpan = document.getElementById('totalCount');
+        // 辅助：选择题选项字母
+        const letters = ['A', 'B', 'C', 'D'];
 
-    function renderQuestions() {
-        let html = '';
-        for (let i = 0; i < questionBank.length; i++) {
-            const q = questionBank[i];
-            const status = resultStatus[i];
+        function render() {
+            let html = '';
+            let revealedCount = 0;
 
-            let answerDisplay = '';
-            if (status === 'correct') {
-                answerDisplay = `<div class="result-hint show correct">✅ 正确</div>`;
-            } else if (status === 'wrong') {
-                let correctStr = '';
+            questionBank.forEach((q, idx) => {
+                const isRevealed = revealState[idx];
+                if (isRevealed) revealedCount++;
+
+                const typeLabel = q.type === 'choice' ? '选择' : '判断';
+                let optionsHtml = '';
+                let answerDisplay = '';
+
                 if (q.type === 'choice') {
-                    const letters = ['A', 'B', 'C', 'D'];
-                    correctStr = letters[q.answer] + '. ' + q.options[q.answer];
-                } else if (q.type === 'tf') {
-                    correctStr = q.answer ? '✔ 正确 (对)' : '✘ 错误 (错)';
-                } else if (q.type === 'fill') {
-                    correctStr = q.answer;
-                }
-                answerDisplay = `<div class="result-hint show wrong">❌ 错误 &nbsp;|&nbsp; 正确答案：<span class="answer-text">${correctStr}</span></div>`;
-            }
+                    // 构建选项
+                    const optItems = q.options.map((opt, oi) => {
+                        const isCorrect = (oi === q.answer);
+                        const cls = isRevealed && isCorrect ? 'opt correct-opt' : 'opt';
+                        return `<span class="${cls}">${letters[oi]}. ${opt}</span>`;
+                    }).join('');
+                    optionsHtml = `<div class="options">${optItems}</div>`;
 
-            let extraClass = '';
-            if (status === 'correct') extraClass = 'correct';
-            else if (status === 'wrong') extraClass = 'wrong';
-
-            let inputHtml = '';
-            if (q.type === 'choice') {
-                const letters = ['A', 'B', 'C', 'D'];
-                let optsHtml = '';
-                for (let j = 0; j < q.options.length; j++) {
-                    const checked = (userSelections[i] === j) ? 'checked' : '';
-                    optsHtml += `
-                                <label>
-                                    <input type="radio" name="q${i}" value="${j}" ${checked}>
-                                    ${letters[j]}. ${q.options[j]}
-                                </label>
-                            `;
-                }
-                inputHtml = `<div class="options">${optsHtml}</div>`;
-            } else if (q.type === 'tf') {
-                const sel = userSelections[i];
-                const checkedTrue = (sel === 0) ? 'checked' : '';
-                const checkedFalse = (sel === 1) ? 'checked' : '';
-                inputHtml = `
-                            <div class="tf-group">
-                                <label><input type="radio" name="q${i}" value="0" ${checkedTrue}> ✔ 正确 (对)</label>
-                                <label><input type="radio" name="q${i}" value="1" ${checkedFalse}> ✘ 错误 (错)</label>
+                    if (isRevealed) {
+                        const correctText = `${letters[q.answer]}. ${q.options[q.answer]}`;
+                        answerDisplay = `
+                            <div class="answer-hint">
+                                <span class="label">✅ 正确答案：</span>
+                                <span class="ans-value correct">${correctText}</span>
                             </div>
                         `;
-            } else if (q.type === 'fill') {
-                const val = userSelections[i] || '';
-                inputHtml = `
-                            <div class="options">
-                                <label style="background:transparent;border:none;padding:0;">
-                                    <span style="font-weight:500;color:#555;">填写答案：</span>
-                                    <input type="text" class="fill-input" data-index="${i}" value="${val}" placeholder="输入答案...">
-                                </label>
+                    }
+                } else { // tf
+                    const isTrue = (q.answer === true);
+                    const displayText = isTrue ? '✔ 正确' : '✘ 错误';
+                    const cls = isRevealed ? (isTrue ? 'tf-answer' : 'tf-answer false-ans') : '';
+                    if (isRevealed) {
+                        answerDisplay = `
+                            <div class="answer-hint">
+                                <span class="label">✅ 正确答案：</span>
+                                <span class="ans-value correct">${displayText}</span>
                             </div>
                         `;
-            }
-
-            const typeLabel = q.type === 'choice' ? '选择' : (q.type === 'tf' ? '判断' : '填空');
-
-            html += `
-                        <div class="question-card ${extraClass}" data-index="${i}">
-                            <div class="q-text"><span class="q-type">${typeLabel}</span> ${q.question}</div>
-                            ${inputHtml}
-                            ${answerDisplay}
-                        </div>
-                    `;
-        }
-
-        questionListEl.innerHTML = html;
-
-        document.querySelectorAll('input[type="radio"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                const name = this.name;
-                const idx = parseInt(name.substring(1));
-                if (this.checked) {
-                    userSelections[idx] = parseInt(this.value);
-                    if (resultStatus[idx] !== null) {
-                        resultStatus[idx] = null;
-                        renderQuestions();
+                    } else {
+                        // 未显示时占位
+                        answerDisplay = `<div style="margin-top:0.5rem; color:#9aafc4; font-size:0.9rem;">👆 点击卡片显示答案</div>`;
                     }
                 }
+
+                const cardClass = isRevealed ? 'card reveal' : 'card';
+
+                html += `
+                    <div class="${cardClass}" data-index="${idx}">
+                        <div class="q-head">
+                            <span class="q-number">#${idx+1}</span>
+                            <span class="q-type">${typeLabel}</span>
+                        </div>
+                        <div class="q-text">${q.question}</div>
+                        ${optionsHtml}
+                        ${answerDisplay}
+                    </div>
+                `;
             });
+
+            container.innerHTML = html;
+            totalSpan.textContent = questionBank.length;
+            revealedSpan.textContent = revealedCount;
+            const percent = Math.round((revealedCount / questionBank.length) * 100);
+            progressPercent.textContent = percent + '%';
+
+            // 点击卡片切换答案显隐
+            document.querySelectorAll('.card').forEach(card => {
+                card.addEventListener('click', function(e) {
+                    // 防止点到内部按钮冒泡（但无内部按钮）
+                    const idx = parseInt(this.dataset.index);
+                    if (!isNaN(idx)) {
+                        revealState[idx] = !revealState[idx];
+                        render();
+                    }
+                });
+            });
+        }
+
+        // 显示全部
+        document.getElementById('revealAllBtn').addEventListener('click', function() {
+            revealState = revealState.map(() => true);
+            render();
         });
 
-        document.querySelectorAll('.fill-input').forEach(inp => {
-            inp.addEventListener('input', function() {
-                const idx = parseInt(this.dataset.index);
-                userSelections[idx] = this.value.trim();
-                if (resultStatus[idx] !== null) {
-                    resultStatus[idx] = null;
-                    const card = this.closest('.question-card');
-                    card.classList.remove('correct', 'wrong');
-                    const hint = card.querySelector('.result-hint');
-                    if (hint) hint.classList.remove('show');
-                    updateSummary();
-                }
-            });
+        // 隐藏全部
+        document.getElementById('hideAllBtn').addEventListener('click', function() {
+            revealState = revealState.map(() => false);
+            render();
         });
 
-        totalCountSpan.textContent = questionBank.length;
-        totalNumEl.textContent = questionBank.length;
-        updateSummary();
-    }
+        // 重置进度（全部隐藏）
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            revealState = revealState.map(() => false);
+            render();
+        });
 
-    function updateSummary() {
-        let correct = 0;
-        for (let i = 0; i < resultStatus.length; i++) {
-            if (resultStatus[i] === 'correct') correct++;
-        }
-        correctNumEl.textContent = correct;
-    }
-
-    // ================================================================
-// 函数1：collectAllAnswers - 从页面收集所有答案
-// ================================================================
-    function collectAllAnswers() {
-    // 读取所有选中的 radio
-    document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
-        const name = r.name;
-        if (name && name.startsWith('q')) {
-            const idx = parseInt(name.substring(1));
-            if (!isNaN(idx)) {
-                userSelections[idx] = parseInt(r.value);
-            }
-        }
-    });
-    // 读取所有填空输入框
-    document.querySelectorAll('.fill-input').forEach(inp => {
-        const idx = parseInt(inp.dataset.index);
-        if (!isNaN(idx)) {
-            userSelections[idx] = inp.value.trim();
-        }
-    });
-}
-
-// ================================================================
-// 函数2：handleSubmit - 提交并评分
-// ================================================================
-function handleSubmit() {
-    // 第一步：从页面收集最新答案
-    collectAllAnswers();
-
-    // 第二步：检查是否所有题目都已作答
-    let allDone = true;
-    for (let i = 0; i < questionBank.length; i++) {
-        const q = questionBank[i];
-        const val = userSelections[i];
-        if (q.type === 'fill') {
-            if (!val || val.trim() === '') {
-                allDone = false;
-                break;
-            }
-        } else {
-            if (val === null || val === -1) {
-                allDone = false;
-                break;
-            }
-        }
-    }
-    if (!allDone) {
-        alert('⚠️ 还有题目未作答，请完成全部题目后再提交！');
-        return;
-    }
-
-    // 第三步：逐题评分
-    for (let i = 0; i < questionBank.length; i++) {
-    const q = questionBank[i];
-    const userAns = userSelections[i];
-    let isCorrect = false;
-
-    if (q.type === 'choice') {
-        isCorrect = (userAns === q.answer);
-    } else if (q.type === 'tf') {
-        isCorrect = (userAns === (q.answer ? 0 : 1));
-    }
-
-    resultStatus[i] = isCorrect ? 'correct' : 'wrong';
-}
-    // 第四步：重新渲染页面，显示结果
-    renderQuestions();
-
-    // 第五步：滚动到第一个错题位置
-    const firstWrong = document.querySelector('.question-card.wrong');
-    if (firstWrong) {
-        firstWrong.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-
-    // 第六步：更新统计
-    updateSummary();
-}    
-
-// ================================================================
-// 函数2：handleSubmit - 提交并评分
-// ================================================================
-
-
-    function handleReset() {
-        userSelections = new Array(questionBank.length).fill(null);
-        for (let i = 0; i < questionBank.length; i++) {
-            if (questionBank[i].type === 'fill') userSelections[i] = '';
-            else userSelections[i] = null;
-        }
-        resultStatus = new Array(questionBank.length).fill(null);
-        renderQuestions();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    function handleClear() {
-        userSelections = new Array(questionBank.length).fill(null);
-        for (let i = 0; i < questionBank.length; i++) {
-            if (questionBank[i].type === 'fill') userSelections[i] = '';
-            else userSelections[i] = null;
-        }
-        resultStatus = new Array(questionBank.length).fill(null);
-        renderQuestions();
-        updateSummary();
-    }
-
-    function init() {
-        for (let i = 0; i < questionBank.length; i++) {
-            if (questionBank[i].type === 'fill') userSelections[i] = '';
-            else userSelections[i] = null;
-        }
-        renderQuestions();
-        submitBtn.addEventListener('click', handleSubmit);
-        resetBtn.addEventListener('click', handleReset);
-        clearBtn.addEventListener('click', handleClear);
-    }
-
-    init();
+        // 初始渲染
+        render();
+    })();
 </script>
-
 </body>
 </html>
