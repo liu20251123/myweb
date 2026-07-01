@@ -425,7 +425,7 @@
   // ================================================================
 // 函数1：collectAllAnswers - 从页面收集所有答案
 // ================================================================
-    function collectAllAnswers() {
+            function collectAllAnswers() {
     // 读取所有选中的 radio
     document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
         const name = r.name;
@@ -488,7 +488,6 @@ function handleSubmit() {
 
     resultStatus[i] = isCorrect ? 'correct' : 'wrong';
 }
-
     // 第四步：重新渲染页面，显示结果
     renderQuestions();
 
@@ -500,7 +499,7 @@ function handleSubmit() {
 
     // 第六步：更新统计
     updateSummary();
-}
+}    
 
 // ================================================================
 // 函数2：handleSubmit - 提交并评分
