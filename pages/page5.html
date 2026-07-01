@@ -196,7 +196,7 @@
 <body>
 
 <div class="container">
-   <div class="header">
+    <div class="header">
         <div class="header-left">
             <h1>📚 操作系统 006</h1>
             <a href="/myweb/" class="home-link">🏠 返回主页</a>
@@ -228,7 +228,7 @@
     // ================================================================
     const questionBank = [
         // ===== 选择题 (原1-24, 53-72, 83-97) =====
-       { type: 'choice', question: '1. 按（ ）分类可将设备分为块设备和字符设备。', options: ['传输速率', '使用特性', '共享属性', '信息交换单位'], answer: 3 },
+        { type: 'choice', question: '1. 按（ ）分类可将设备分为块设备和字符设备。', options: ['传输速率', '使用特性', '共享属性', '信息交换单位'], answer: 3 },
         { type: 'choice', question: '2. 以下（ ）属于独占设备。', options: ['硬盘', '磁鼓', '打印机', '光盘'], answer: 2 },
         { type: 'choice', question: '3. 以下属于共享设备的是（ ）。', options: ['打印机', '磁盘', '用户终端', '鼠标器'], answer: 1 },
         { type: 'choice', question: '4. 计算机输入/输出操作指的（ ）之间的信息传送。', options: ['I/O设备与I/O设备', '主机（含CPU、内存）与I/O设备', 'CPU与主存', '键盘与显示器'], answer: 1 },
@@ -422,10 +422,18 @@
         updateSummary();
     }
 
-  // ================================================================
+    function updateSummary() {
+        let correct = 0;
+        for (let i = 0; i < resultStatus.length; i++) {
+            if (resultStatus[i] === 'correct') correct++;
+        }
+        correctNumEl.textContent = correct;
+    }
+
+    // ================================================================
 // 函数1：collectAllAnswers - 从页面收集所有答案
 // ================================================================
-            function collectAllAnswers() {
+    function collectAllAnswers() {
     // 读取所有选中的 radio
     document.querySelectorAll('input[type="radio"]:checked').forEach(r => {
         const name = r.name;
